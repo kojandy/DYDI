@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>Timeline</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.9.0/fullcalendar.min.css">
+    <link rel="stylesheet" href="lib/fullcalendar/scheduler.min.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <script src="http://momentjs.com/downloads/moment.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.9.0/fullcalendar.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js" integrity="sha384-smHYKdLADwkXOn1EmN1qk/HfnUcbVRZyYmZ4qpPea6sjB/pTJ0euyQp0Mk8ck+5T" crossorigin="anonymous"></script>
+    <script src="lib/fullcalendar/scheduler.min.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/4.10.1/firebase.js"></script>
+    <style>
+        .tab-content {
+            height: 1000px;
+        }
+
+        #calendar {
+            height: 600px;
+        }
+    </style>
+    <script>
+        $(() => {
+            let config = {
+                apiKey: 'AIzaSyAn9cS4J2VMItPAG7DFDqRfgZfknrVjhQ8',
+                databaseURL: 'https://dydi-82330.firebaseio.com/',
+            };
+            firebase.initializeApp(config);
+
+            let database = firebase.database();
+
+            let $upcoming_body = $('#tl_upcoming');
+            let $noti_body = $('#noti_body');
+            let $noti_badge = $('#noti_badge');
+            let $calendar = $('#calendar');
+
+            function addToday(start, end, title) {
+                $calendar.fullCalendar('renderEvent', {
+                    title: title,
+                    start: start.format(),
+                    end: end.format(),
+                });
+            }
+
+            function addUpcoming(mom, body) {
+                $upcoming_body.append($('<div class="alert alert-info">').append($('<strong>').text(mom.format('M[/]D'))).append(' ').append(body));
+            }
+
+            function addNoti(mom, body) {
+                $noti_body.append($('<div class="alert alert-primary">').append($('<strong>').text(mom.fromNow())).append(' ').append(body));
+            }
+
+            $calendar.fullCalendar({
+                header: false,
+                height: 'parent',
+                themeSystem: 'bootstrap4',
+                defaultView: 'agendaDay',
+                nowIndicator: true,
+                schedulerLicenseKey: 'CC-Attribution-NonCommercial-NoDerivatives'
+            });
+
+            database.ref('noti').on('value', (snapshot) => {
+                let notis = snapshot.val();
+                $noti_body.empty();
+                let con = [];
+                for (let id in notis) {
+                    con.push({
+                        body: notis[id].body,
+                        moment: moment(notis[id].date + 'T' + notis[id].time),
+                    });
+                }
+                con.sort((a, b) => b.moment.diff(a.moment));
+                for (let noti of con) {
+                    addNoti(noti.moment, noti.body);
+                }
+                if (con.length !== 0) {
+                    $noti_badge.text(con.length);
+                } else {
+                    $noti_badge.text();
+                }
+            });
+
+            database.ref('task').on('value', (snapshot) => {
+                let tasks = snapshot.val();
+                $calendar.fullCalendar('removeEvents');
+                $upcoming_body.empty();
+                let con = [];
+                for (let id in tasks) {
+                    con.push({
+                        title: tasks[id].title,
+                        start: moment(tasks[id].startdate + 'T' + tasks[id].starttime),
+                        end: moment(tasks[id].enddate + 'T' + tasks[id].endtime),
+                    })
+                }
+                con = con.filter((e) => (e.end.diff(moment().startOf('day'))) > 0);
+                con.sort((a, b) => a.start.diff(b.start));
+                let today = [];
+                let upcoming = [];
+                for (let task of con) {
+                    if (task.start.diff(moment().endOf('day')) < 0) {
+                        today.push(task);
+                    } else {
+                        upcoming.push(task);
+                    }
+                }
+                for (let task of today) {
+                    addToday(task.start, task.end, task.title);
+                }
+                for (let task of upcoming) {
+                    addUpcoming(task.start, task.title);
+                }
+            });
+        });
+    </script>
+</head>
+<body>
+    <div class="container-fluid">
+        <div class="card">
+            <div class="tab-content">
+                <div id="tab_timeline" class="tab-pane active">
+                    <h5 class="card-header">Today</h5>
+                    <div class="card-body">
+                        <div id="calendar"></div>
+                    </div>
+                    <h5 class="card-header">Upcoming</h5>
+                    <div class="card-body" id="tl_upcoming"></div>
+                </div>
+                <div id="tab_noti" class="tab-pane">
+                    <h5 class="card-header">Notification</h5>
+                    <div class="card-body" id="noti_body"></div>
+                </div>
+            </div>
+            <div class="card-footer">
+                <ul class="nav nav-pills justify-content-end">
+                    <li class="nav-item">
+                        <a href="#tab_timeline" class="nav-link active" data-toggle="tab">Timeline</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#tab_noti" class="nav-link" data-toggle="tab">Noti <sup><span id="noti_badge" class="badge badge-pill badge-danger"></span></sup></a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
