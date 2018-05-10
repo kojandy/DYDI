@@ -1,0 +1,226 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset='utf-8' />
+    <link href='../fullcalendar.min.css' rel='stylesheet' />
+    <link href='../fullcalendar.print.min.css' rel='stylesheet' media='print' />
+    <script src='../lib/moment.min.js'></script>
+    <script src='../lib/jquery.min.js'></script>
+    <script src='../fullcalendar.min.js'></script>
+    <script src="https://www.gstatic.com/firebasejs/4.10.1/firebase.js"></script>
+    <script>
+        $(document).ready(function() {
+            var config = {
+                apiKey:"AIzaSyAn9cS4J2VMItPAG7DFDqRfgZfknrVjhQ8",
+                databaseURL: "https://dydi-82330.firebaseio.com/",
+            };
+            firebase.initializeApp(config);
+
+            var database = firebase.database();
+            var taskRef = database.ref('task');
+            var num = 0;
+            var event;
+            $('#calendar').fullCalendar('refetchEvents');
+            $('#calendar').fullCalendar({
+                header: {
+                    left: 'prev,next today',
+                    center: 'title',
+                    right: 'month,agendaWeek,agendaDay,listWeek',
+                },
+                defaultDate: new Date(),
+                navLinks: true, // can click day/week names to navigate views
+                editable: true,
+                eventLimit: true, // allow "more" link when too many events
+                eventDragStart: function (event, jsEvent, view) {
+                    var dow_ = event.dow;
+                    if (!dow_){
+                        alert("Cannot change date of recurring tasks");
+                        return;
+                    }
+                },
+                eventDrop: function (event, delta, revertFunc) {
+                    var start = event.start.format().split(":")[0] + ":" + event.start.format().split(":")[1];
+                    var end = event.end.format().split(":")[0] + ":" + event.end.format().split(":")[1];
+                    var dow_ = event.dow;
+                    if (dow_) {
+                        if (confirm("Are you sure about this change?")) {
+                            ///revertFunc();
+                            var complete_;
+                            if (event.backgroundColor == "pink"){
+                                complete_ = "complete";
+                            }
+                            else if (event.backgroundColor == "skyblue") {
+                                complete_ = "not yet";
+                            }
+                            else {
+                                complete_ = "not needed";
+                            }
+                            var newobj = {
+                                complete: complete_,
+                                end: end,
+                                recurring: false,
+                                start: start,
+                                title : event.title,
+                            }
+                            ///alert(event.title + " was dropped on " + event.start.format());
+                            taskRef.child(String(event.title)).set(newobj);
+                            $('#calendar').fullCalendar('refetchEvents');
+                            road();
+                        }
+                    }
+                    else {
+                        ///alert("Cannot change date of recurring tasks");
+                        revertFunc();
+                    }
+                }
+            });
+
+            function road() { 
+                taskRef.on('value', function (snapshot) {
+                    $('#calendar').fullCalendar('removeEvents');
+                    snapshot.forEach(function(childSnapshot) {
+                        var repeatlist = [];
+                        var color = "";
+                        var backgroundcolor = "";
+                        var border = "";
+                        var startdate = String(childSnapshot.val().start.split("T")[0]);
+                        var enddate = String(childSnapshot.val().end.split("T")[0]);
+                        var starttime = String(childSnapshot.val().start.split("T")[1]);
+                        var endtime = String(childSnapshot.val().end.split("T")[1]);
+                        database.ref('task').child(childSnapshot.key).child("recurring").on('value', function (childchildsnapshot) {
+                            childchildsnapshot.forEach(function(repeatsnapshot){
+                                if (repeatsnapshot.val() == true) {
+                                    repeatlist.push(repeatsnapshot.key);
+                                }
+                            })
+                        });
+
+                        if (childSnapshot.val().complete == "complete") {
+                            backgroundcolor = "pink";
+                            border = "pink"
+                            color = "black";
+                        }
+                        else if (childSnapshot.val().complete == "not yet") {
+                            backgroundcolor = "skyblue";
+                            border = "skyblue";
+                            color = "black";
+                        }
+                        else if (childSnapshot.val().complete == "not needed") {
+                            backgroundcolor = "white";
+                            border = "white";
+                            color = "gray";
+                        }
+
+                        if (childSnapshot.val().recurring == false) {
+                            event = {
+                                title: childSnapshot.val().title,
+                                start: childSnapshot.val().start,
+                                end: childSnapshot.val().end,
+                                dow : [],
+                                allday: false,
+                                textColor: color,
+                                backgroundColor: backgroundcolor,
+                                borderColor: border,
+                            }
+                            $('#calendar').fullCalendar('renderEvent', event, true);
+                        }
+                        else {
+                            event = {
+                                title: childSnapshot.val().title,
+                                start: starttime,
+                                end: endtime,
+                                allday: false,
+                                dow: repeatlist,
+                                ranges: [{
+                                    start: startdate,
+                                    end: enddate,
+                                }],
+                                textColor: color,
+                                backgroundColor: backgroundcolor,
+                                borderColor: border,
+                                editable: false,
+                            }
+                            $('#calendar').fullCalendar('renderEvent', event, true);
+                        }
+                    })
+                })
+            }
+            road();
+            
+
+            //$('.fc-prev-button fc-button fc-state-default fc-corner-left fc-state-hover').click(function () {
+            //    road();
+            //})
+            //$('.fc-next-button fc-button fc-state-default fc-corner-right fc-state-hover').click(function () {
+            //    alert("a");
+            //    road();
+            //})
+            //$('.fc-month-button fc-button fc-state-default fc-corner-left fc-state-active').click(function () {
+            //    road();
+            //})
+            //$('.fc-agendaWeek-button fc-button fc-state-default').click(function () {
+            //    road();
+            //})
+            //$('.fc-agendaDay-button fc-button fc-state-default').click(function () {
+            //    road();
+            //})
+            //$('.fc-listWeek-button fc-button fc-state-default').click(function () {
+            //    road();
+            //})
+
+            //Deletefirebase();
+            //Addfirebase();
+        })
+        </script>
+        <script type="text/javascript">
+        function init() {
+            var target = document.getElementById('clock');
+            target.innerHTML = new Date();
+            // Window 객체는 생략이 가능하다.
+
+            no = setInterval(setTime, 1000);                // 가능
+            setInterval("setTime()", 1000);          // 가능
+        }
+
+        function setTime() {
+
+            var target = document.getElementById('clock');
+            var date = new Date();
+            target.innerHTML = date.getFullYear() + '-' + (date.getMonth() + 1) + '-' + date.getDate() + ' ' + date.getHours() + ':' +date.getMinutes() + ':' + date.getSeconds();
+
+            ///target.innerHTML = date.toLocaleString();
+
+        }
+
+    </script>
+    <style>
+
+        body {
+            margin: 40px 10px;
+            padding: 0;
+            font-family: "Lucida Grande",Helvetica,Arial,Verdana,sans-serif;
+            font-size: 14px;
+        }
+
+        #calendar {
+            color: gray;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        #dydi {
+            margin-bottom: 50px;
+        }
+    </style>
+</head>
+<body onload="init();">
+    <div id="dydi">
+        <img src="cat.png" width="40" height="40" style="margin-left : 40%; margin-right : 5px">
+        <span style="padding-bottom : 50px; font-size : 40px; font-family : Nova Flat; font-weight : bold;">DYDI</span><span style="padding-bottom : 50px; font-size : 25px; font-weight : bold;"> Calendar</span>
+        <span id="clock" style="margin-left : 11%; color : gray; font-size : 20px;"></span>
+    </div>
+   
+    <div id='calendar'></div>
+
+</body>
+</html>
