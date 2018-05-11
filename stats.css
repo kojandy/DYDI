@@ -5,7 +5,7 @@
 
 /* Fix Google Charts' tooltip flickering bug */
 svg > g > g:last-child {
-  pointer-events: none
+  pointer-events: none;
 }
 
 .button4 {

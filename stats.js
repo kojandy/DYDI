@@ -1,21 +1,31 @@
 // This allows the Javascript code inside this block to only run when the page
 // has finished loading in the browser.
 $(document).ready(function() {
+  // Firebase Database setup
+  const database = firebase.database();
+
+  var groupRef = database.ref("group");
+  groupRef.on("value", function(snapshot) {
+    snapshot.forEach(function(groupSnapshot) {
+      let groupEntry = groupSnapshot.val();
+      
+    });
+  });
+
+
+  $("#stats_nav a").on("click", function(events) {
+    events.preventDefault();
+
+
+
+    $(this).tab("show");
+  });
 
   const group = "Feed";
   const defaultTickCount = 15;
   const completeColor = "green";
   const notneededColor = "grey";
 
-  // Firebase setup
-  const config = {
-    apiKey: "AIzaSyAn9cS4J2VMItPAG7DFDqRfgZfknrVjhQ8",
-    databaseURL: "https://dydi-82330.firebaseio.com/",
-  };
-  firebase.initializeApp(config);
-
-  // Firebase Database setup
-  const database = firebase.database();
 
   // Load the Visualization API and the corechart package.
   google.charts.load("current", {"packages": ["corechart"]});
@@ -52,7 +62,7 @@ $(document).ready(function() {
         if(taskSnapshot.hasChild("status")) {
           var status = taskSnapshot.child("status").val();
           for(d in status) {
-            if(moment(d).isSameOrAfter(moment().subtract(7, 'days'))) {
+            if(moment(d).isSameOrAfter(moment().subtract(7, "days"))) {
               if(status[d])
                 comCount[moment(d).format("ddd")] += 1;
               else

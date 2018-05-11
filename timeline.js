@@ -1,16 +1,15 @@
 $(() => {
-    let config = {
-        apiKey: 'AIzaSyAn9cS4J2VMItPAG7DFDqRfgZfknrVjhQ8',
-        databaseURL: 'https://dydi-82330.firebaseio.com/',
-    };
-    firebase.initializeApp(config);
-
     let database = firebase.database();
     let $body = $('body');
     let $calendar = $('#calendar');
     let $upcomingBody = $('#tl_upcoming');
     let $notiBody = $('#tab_noti');
     let $notiBadge = $('#noti_badge');
+
+    let $modalTitle = $('#modal_title');
+    let $modalBtnNN = $('#modal_nn');
+    let $modalBtnNY = $('#modal_ny');
+    let $modalBtnY = $('#modal_y');
 
     $calendar.fullCalendar({
         header: false,
@@ -21,6 +20,22 @@ $(() => {
         schedulerLicenseKey: 'CC-Attribution-NonCommercial-NoDerivatives',
         height: 300,
         scrollTime: moment().subtract(1, 'hours').format('HH:mm:ss'),
+        eventClick: (event) => {
+            console.log(event.id);
+            let date = event.start.format('Y-MM-DD');
+
+            $modalTitle.text(event.title);
+            $modalBtnNN.click(() => {
+                database.ref('task/' + event.id + '/status/' + date).set(false);
+            });
+            $modalBtnNY.click(() => {
+                database.ref('task/' + event.id + '/status/' + date).remove();
+            });
+            $modalBtnY.click(() => {
+                database.ref('task/' + event.id + '/status/' + date).set(true);
+            });
+            $('#modal').modal();
+        },
         // allDaySlot: false,
     });
 
@@ -40,11 +55,12 @@ $(() => {
         }
     });
 
-    function addToday(start, end, status, title) {
+    function addToday(id, start, end, status, title) {
         let event = {
             title: title,
             start: start.format(),
             end: end.format(),
+            id: id,
         };
 
         if (status === 'complete') {
@@ -61,7 +77,7 @@ $(() => {
         $calendar.fullCalendar('renderEvent', event);
     }
 
-    function addUpcoming(start, status, title) {
+    function addUpcoming(id, start, status, title) {
         let newItem =
             $('<div>')
                 .addClass('list-group-item')
@@ -73,7 +89,21 @@ $(() => {
                     .append($('<span class="far fa-clock" style="margin-right: 5px;">'))
                     .append(start.format('M/D H:mm'))
                     .append(' ~')
-                )
+                ).click(() => {
+                    let date = start.format('Y-MM-DD');
+
+                    $modalTitle.text(title);
+                    $modalBtnNN.click(() => {
+                        database.ref('task/' + id + '/status/' + date).set(false);
+                    });
+                    $modalBtnNY.click(() => {
+                        database.ref('task/' + id + '/status/' + date).remove();
+                    });
+                    $modalBtnY.click(() => {
+                        database.ref('task/' + id + '/status/' + date).set(true);
+                    });
+                    $('#modal').modal();
+                });
         
         if (status === 'complete') {
             newItem.addClass('list-group-item-light');
@@ -105,8 +135,9 @@ $(() => {
         let con = [];
         for (let id in tasks) {
             if (tasks[id].recurring === false) {
-                let date = moment().format('Y-MM-DD');
+                let date = moment(tasks[id].start).format('Y-MM-DD');
                 let event = {
+                    id: id,
                     title: tasks[id].title,
                     start: moment(tasks[id].start),
                     end: moment(tasks[id].end),
@@ -140,6 +171,7 @@ $(() => {
                     if (tasks[id].recurring[current.format('d')]) {
                         let date = current.format('Y-MM-DD');
                         let event = {
+                            id: id,
                             title: tasks[id].title,
                             start: start,
                             end: end,
@@ -175,11 +207,11 @@ $(() => {
         }
 
         for (let task of today) {
-            addToday(task.start, task.end, task.status, task.title);
+            addToday(task.id, task.start, task.end, task.status, task.title);
         }
 
         for (let task of upcoming) {
-            addUpcoming(task.start, task.status, task.title);
+            addUpcoming(task.id, task.start, task.status, task.title);
         }
     });
 
