@@ -55,7 +55,7 @@
             <nav class="sidebar-nav">
                 <ul class="nav">
                     <li class="nav-item">
-                        <a href="#" id="a_main" class="nav-link">
+                        <a href="#" id="a_main" class="nav-link active">
                             <span class="nav-icon fas fa-home"></span>
                             Main
                         </a>
@@ -112,18 +112,28 @@
         $(() => {
             const $container = $('main');
 
+            function setActive(curr) {
+                $('.nav-link').removeClass('active');
+                $(curr).addClass('active');
+            }
+
             $('#a_main').click(() => {
+                setActive('#a_main');
             });
             $('#a_tasks').click(() => {
+                setActive('#a_tasks');
                 $container.html(
                     $('<object data="calendar.html" type="text/html" width=100% height=100%>')
                 );
             });
             $('#a_pets').click(() => {
+                setActive('#a_pets');
             });
             $('#a_shop').click(() => {
+                setActive('#a_shop');
             });
             $('#a_stats').click(() => {
+                setActive('#a_stats');
                 $container.load('stats.html');
             });
         });
