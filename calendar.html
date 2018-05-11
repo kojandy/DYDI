@@ -8,6 +8,7 @@
     <script src='lib/jquery.min.js'></script>
     <script src='lib/fullcalendar.min.js'></script>
     <script src="https://www.gstatic.com/firebasejs/4.10.1/firebase.js"></script>
+    <link href="https://fonts.googleapis.com/css?family=Acme" rel="stylesheet">
     <script>
         $(document).ready(function() {
             var config = {
@@ -34,29 +35,59 @@
                 eventDrop: function (event, delta, revertFunc) {
                     var start = event.start.format().split(":")[0] + ":" + event.start.format().split(":")[1];
                     var end = event.end.format().split(":")[0] + ":" + event.end.format().split(":")[1];
+                    var start2 = start.split("T")[0];
+                    var end2 = end.split("T")[0];
                     if (confirm("Are you sure about this change?")) {
                             ///revertFunc();
-                            var complete_;
-                            if (event.backgroundColor == "pink"){
-                                complete_ = "complete";
+                        var newobj;
+                        var group;
+                        taskRef.on('value', function (snapshot) {
+                            snapshot.forEach(function (childSnapshot) {
+                                if (childSnapshot.val().title == event.title){
+                                    group = childSnapshot.val().group;
+                                }
+                            })})
+                            if (event.backgroundColor == "rgb(63, 159, 91)") {
+                                newobj = {
+                                    group: group,
+                                    status: {},
+                                    end: end,
+                                    recurring: false,
+                                    start: start,
+                                    title: event.title,
+                                }
+                                newobj.status[start2] = false;
+                                taskRef.child(String(event.title)).set(newobj);
+                                $('#calendar').fullCalendar('refetchEvents');
+                                road();
                             }
-                            else if (event.backgroundColor == "skyblue") {
-                                complete_ = "not yet";
+                            else if (event.backgroundColor == "white") {
+                                newobj = {
+                                    group: group,
+                                    status: {},
+                                    end: end,
+                                    recurring: false,
+                                    start: start,
+                                    title: event.title,
+                                }
+                                newobj.status[start2] = false;
+                                taskRef.child(String(event.title)).set(newobj);
+                                $('#calendar').fullCalendar('refetchEvents');
+                                road();
                             }
                             else {
-                                complete_ = "not needed";
+                                newobj = {
+                                    group: group,
+                                    end: end,
+                                    recurring: false,
+                                    start: start,
+                                    title: event.title,
+                                }
+                                alert(event.group);
+                                taskRef.child(String(event.title)).set(newobj);
+                                $('#calendar').fullCalendar('refetchEvents');
+                                road();
                             }
-                            var newobj = {
-                                group : event.group,
-                                complete: complete_,
-                                end: end,
-                                recurring: false,
-                                start: start,
-                                title : event.title,
-                            }
-                            taskRef.child(String(event.title)).set(newobj);
-                            $('#calendar').fullCalendar('refetchEvents');
-                            road();
                         }
                     else {
                         revertFunc();
@@ -80,10 +111,11 @@
                         var range2;
                         var repeatlist = [];
                         var status = [];
+                        var status2 = [];
                         var range = [];
-                        var color = "black";
-                        var backgroundcolor = "skyblue";
-                        var border = "skyblue";
+                        var color = "white";
+                        var backgroundcolor = "rgb(250,63,80)";
+                        var border = "rgb(250, 63, 80)";
                         var startdate = String(childSnapshot.val().start.split("T")[0]);
                         var enddate = String(childSnapshot.val().end.split("T")[0]);
                         var starttime = String(childSnapshot.val().start.split("T")[1]);
@@ -100,35 +132,57 @@
                                 if (repeatsnapshot.val() == true) {
                                     status.push(repeatsnapshot.key);
                                 }
+                                else if (repeatsnapshot.val() == false) {
+                                    status2.push(repeatsnapshot.key);
+                                }
                             })
-                        });  
+                        });
 
                         if (childSnapshot.val().recurring == false) {
-                            event = {
-                                id : childSnapshot.val().id,
-                                title: childSnapshot.val().title,
-                                start: childSnapshot.val().start,
-                                end: childSnapshot.val().end,
-                                dow : [],
-                                allday: false,
-                                textColor: color,
-                                backgroundColor: backgroundcolor,
-                                borderColor: border,
-                            }
-                            $('#calendar').fullCalendar('renderEvent', event, true);
+                                    if (find(moment(startdate).format('YYYY-MM-DD'), status)) {
+                                        backgroundcolor = "rgb(63, 159, 91)";
+                                        border = "rgb(63, 159, 91)";
+                                        color = "white";
+                                    }
+                                    else if (find(moment(startdate).format('YYYY-MM-DD'), status2)) {
+                                        backgroundcolor = "white";
+                                        border = "white";
+                                        color = "rgb(159, 159, 159)";
+                                    }
+                                    else {
+                                        color = "white";
+                                        backgroundcolor = "rgb(250, 63, 80)";
+                                        border = "rgb(250, 63, 80)";
+                                    }
+                                    event = {
+                                        title: childSnapshot.val().title,
+                                        start: childSnapshot.val().start,
+                                        end: childSnapshot.val().end,
+                                        dow : [],
+                                        allday: false,
+                                        textColor: color,
+                                        backgroundColor: backgroundcolor,
+                                        borderColor: border,
+                                    }
+                                    $('#calendar').fullCalendar('renderEvent', event, true);
                         }
                         else {
                             for (var i = moment(startdate) ; i.diff(moment(enddate)) < 0 ; i = i.add(1, 'days')) {
                                 if (find(i.format('d'),repeatlist)) {
                                     if (find(i.format('YYYY-MM-DD'), status)) {
-                                        backgroundcolor = "pink";
-                                        border = "pink"
-                                        color = "black";
+                                        backgroundcolor = "rgb(63,159,91)";
+                                        border = "rgb(63, 159, 91)";
+                                        color = "white";
+                                    }
+                                    else if (find(i.format('YYYY-MM-DD'), status2)) {
+                                        backgroundcolor = "white";
+                                        border = "white";
+                                        color =  "rgb(159, 159,159)";
                                     }
                                     else {
-                                        color = "black";
-                                        backgroundcolor = "skyblue";
-                                        border = "skyblue";
+                                        color = "white";
+                                        backgroundcolor = "rgb(250, 63, 80)";
+                                        border = "rgb(250, 63, 80)";
                                     }
                                     event = {
                                         id: childSnapshot.val().id,
@@ -198,9 +252,9 @@
             //}
             road();
         })
-        </script>
+    </script>
 
-        <script type="text/javascript">
+    <!--<script type="text/javascript">
         function init() {
             var target = document.getElementById('clock');
             target.innerHTML = new Date();
@@ -220,7 +274,7 @@
 
         }
 
-    </script>
+    </script>-->
     <style>
 
         body {
@@ -231,9 +285,13 @@
         }
 
         #calendar {
-            color: gray;
+            color: black;
             max-width: 900px;
             margin: 0 auto;
+            //font-size : 16px;
+           // font-family: 'Acme', sans-serif;
+            //font-stretch : ultra-expanded;
+           // border : thin;
         }
 
         #dydi {
@@ -241,7 +299,7 @@
         }
     </style>
 </head>
-<body onload="init();">
+<body>
     <!--<div id="dydi">
         <img src="images/cat.png" width="40" height="40" style="margin-left : 40%; margin-right : 5px">
         <span style="padding-bottom : 50px; font-size : 40px; font-family : Nova Flat; font-weight : bold;">DYDI</span><span style="padding-bottom : 50px; font-size : 25px; font-weight : bold;"> Calendar</span>
