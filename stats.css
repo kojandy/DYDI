@@ -1,5 +1,10 @@
-#chartArea {
-  height: 300px;
+.tab-pane {
+  height: 400px;
+  width: 800px;
+}
+
+.chartArea {
+  height: 400px;
   width: 800px;
 }
 
