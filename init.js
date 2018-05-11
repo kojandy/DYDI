@@ -1,12 +1,7 @@
 // This allows the Javascript code inside this block to only run when the page
 // has finished loading in the browser.
 $(document).ready(function() {
-  // Firebase setup
-  var config = {
-    apiKey: "AIzaSyAn9cS4J2VMItPAG7DFDqRfgZfknrVjhQ8",
-    databaseURL: "https://dydi-82330.firebaseio.com/",
-  };
-  firebase.initializeApp(config);
+  loadLibrary();
 
   // Firebase Database setup
   var database = firebase.database();
@@ -21,7 +16,7 @@ $(document).ready(function() {
         },
         group1: {
           title: "Bathe",
-          tracked: false,
+          tracked: true,
         },
       },
       noti: {
