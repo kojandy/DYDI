@@ -31,19 +31,10 @@
                 navLinks: true, // can click day/week names to navigate views
                 editable: true,
                 eventLimit: true, // allow "more" link when too many events
-                eventDragStart: function (event, jsEvent, view) {
-                    var dow_ = event.dow;
-                    if (!dow_){
-                        alert("Cannot change date of recurring tasks");
-                        return;
-                    }
-                },
                 eventDrop: function (event, delta, revertFunc) {
                     var start = event.start.format().split(":")[0] + ":" + event.start.format().split(":")[1];
                     var end = event.end.format().split(":")[0] + ":" + event.end.format().split(":")[1];
-                    var dow_ = event.dow;
-                    if (dow_) {
-                        if (confirm("Are you sure about this change?")) {
+                    if (confirm("Are you sure about this change?")) {
                             ///revertFunc();
                             var complete_;
                             if (event.backgroundColor == "pink"){
@@ -56,33 +47,43 @@
                                 complete_ = "not needed";
                             }
                             var newobj = {
+                                group : event.group,
                                 complete: complete_,
                                 end: end,
                                 recurring: false,
                                 start: start,
                                 title : event.title,
                             }
-                            ///alert(event.title + " was dropped on " + event.start.format());
                             taskRef.child(String(event.title)).set(newobj);
                             $('#calendar').fullCalendar('refetchEvents');
                             road();
                         }
-                    }
                     else {
-                        ///alert("Cannot change date of recurring tasks");
                         revertFunc();
                     }
                 }
             });
 
-            function road() { 
+            function find(a, b) {
+                for (var j = 0; j < b.length; j++) {
+                    if (a == b[j]){
+                        return true;
+                    }
+                }
+                return false;
+            }
+
+            function road() {
                 taskRef.on('value', function (snapshot) {
                     $('#calendar').fullCalendar('removeEvents');
-                    snapshot.forEach(function(childSnapshot) {
+                    snapshot.forEach(function (childSnapshot) {
+                        var range2;
                         var repeatlist = [];
-                        var color = "";
-                        var backgroundcolor = "";
-                        var border = "";
+                        var status = [];
+                        var range = [];
+                        var color = "black";
+                        var backgroundcolor = "skyblue";
+                        var border = "skyblue";
                         var startdate = String(childSnapshot.val().start.split("T")[0]);
                         var enddate = String(childSnapshot.val().end.split("T")[0]);
                         var starttime = String(childSnapshot.val().start.split("T")[1]);
@@ -94,25 +95,17 @@
                                 }
                             })
                         });
-
-                        if (childSnapshot.val().complete == "complete") {
-                            backgroundcolor = "pink";
-                            border = "pink"
-                            color = "black";
-                        }
-                        else if (childSnapshot.val().complete == "not yet") {
-                            backgroundcolor = "skyblue";
-                            border = "skyblue";
-                            color = "black";
-                        }
-                        else if (childSnapshot.val().complete == "not needed") {
-                            backgroundcolor = "white";
-                            border = "white";
-                            color = "gray";
-                        }
+                        database.ref('task').child(childSnapshot.key).child("status").on('value', function (childchildsnapshot) {
+                            childchildsnapshot.forEach(function (repeatsnapshot) {
+                                if (repeatsnapshot.val() == true) {
+                                    status.push(repeatsnapshot.key);
+                                }
+                            })
+                        });  
 
                         if (childSnapshot.val().recurring == false) {
                             event = {
+                                id : childSnapshot.val().id,
                                 title: childSnapshot.val().title,
                                 start: childSnapshot.val().start,
                                 end: childSnapshot.val().end,
@@ -125,53 +118,88 @@
                             $('#calendar').fullCalendar('renderEvent', event, true);
                         }
                         else {
-                            event = {
-                                title: childSnapshot.val().title,
-                                start: starttime,
-                                end: endtime,
-                                allday: false,
-                                dow: repeatlist,
-                                ranges: [{
-                                    start: startdate,
-                                    end: enddate,
-                                }],
-                                textColor: color,
-                                backgroundColor: backgroundcolor,
-                                borderColor: border,
-                                editable: false,
+                            for (var i = moment(startdate) ; i.diff(moment(enddate)) < 0 ; i = i.add(1, 'days')) {
+                                if (find(i.format('d'),repeatlist)) {
+                                    if (find(i.format('YYYY-MM-DD'), status)) {
+                                        backgroundcolor = "pink";
+                                        border = "pink"
+                                        color = "black";
+                                    }
+                                    else {
+                                        color = "black";
+                                        backgroundcolor = "skyblue";
+                                        border = "skyblue";
+                                    }
+                                    event = {
+                                        id: childSnapshot.val().id,
+                                        title: childSnapshot.val().title,
+                                        start: i.format('YYYY-MM-DD') + "T" + starttime,
+                                        end: i.format('YYYY-MM-DD') + "T" + endtime,
+                                        allday: false,
+                                        textColor: color,
+                                        backgroundColor: backgroundcolor,
+                                        borderColor: border,
+                                        editable : false,
+                                    }
+                                    $('#calendar').fullCalendar('renderEvent', event, true);
+                                }
                             }
-                            $('#calendar').fullCalendar('renderEvent', event, true);
                         }
                     })
                 })
             }
+
+            //function reroad() {
+            //    taskRef.on('value', function (snapshot) {
+            //        snapshot.forEach(function (childSnapshot) {
+            //            var date;
+            //            var year;
+            //            var month;
+            //            var date2;
+            //            var id = childSnapshot.val().id;
+            //            if (!(childSnapshot.val().recurring == false)) {
+            //                database.ref('task').child(childSnapshot.key).child("status").on('value', function (childchildsnapshot) {
+            //                    childchildsnapshot.forEach(function (repeatsnapshot) {
+            //                        date = repeatsnapshot.key;
+            //                        //year = date.split("-")[0];
+            //                        //month = date.split("-")[1];
+            //                        //date2 = date.split("-")[2];
+            //                        //if (Number(month) < 10) {
+            //                        //    month = month.split("0")[1];
+            //                        //}
+            //                        //if (Number(date2) < 10) {
+            //                        //    date2 = date2.split("0")[1];
+            //                        //}
+            //                         $('#calendar').fullCalendar('removeEvents', function (event) {
+            //                                    ///if(event.start.toDateString()===new Date(Number(year), Number(month), Number(date2)).toDateString()){
+            //                              alert(event.id);
+            //                              if (event.id == id) {
+            //                                  alert("a");
+            //                                        return true;
+            //                               }
+            //                               })
+            //                            ///}
+            //                    })
+            //                    var event = {
+            //                        title: childSnapshot.val().title,
+            //                        start: date + "T" + childSnapshot.val().start.split("T")[1],
+            //                        end: date + "T" + childSnapshot.val().end.split("T")[1],
+            //                        dow: [],
+            //                        allday: false,
+            //                        textColor: "black",
+            //                        backgroundColor: "pink",
+            //                        borderColor: "pink",
+            //                    }
+            //                    $('#calendar').fullCalendar('renderEvent', event, true);
+            //                })
+            //            }
+            //        })
+            //    });
+            //}
             road();
-            
-
-            //$('.fc-prev-button fc-button fc-state-default fc-corner-left fc-state-hover').click(function () {
-            //    road();
-            //})
-            //$('.fc-next-button fc-button fc-state-default fc-corner-right fc-state-hover').click(function () {
-            //    alert("a");
-            //    road();
-            //})
-            //$('.fc-month-button fc-button fc-state-default fc-corner-left fc-state-active').click(function () {
-            //    road();
-            //})
-            //$('.fc-agendaWeek-button fc-button fc-state-default').click(function () {
-            //    road();
-            //})
-            //$('.fc-agendaDay-button fc-button fc-state-default').click(function () {
-            //    road();
-            //})
-            //$('.fc-listWeek-button fc-button fc-state-default').click(function () {
-            //    road();
-            //})
-
-            //Deletefirebase();
-            //Addfirebase();
         })
         </script>
+
         <script type="text/javascript">
         function init() {
             var target = document.getElementById('clock');
@@ -214,11 +242,11 @@
     </style>
 </head>
 <body onload="init();">
-    <div id="dydi">
+    <!--<div id="dydi">
         <img src="images/cat.png" width="40" height="40" style="margin-left : 40%; margin-right : 5px">
         <span style="padding-bottom : 50px; font-size : 40px; font-family : Nova Flat; font-weight : bold;">DYDI</span><span style="padding-bottom : 50px; font-size : 25px; font-weight : bold;"> Calendar</span>
         <span id="clock" style="margin-left : 11%; color : gray; font-size : 20px;"></span>
-    </div>
+    </div>-->
    
     <div id='calendar'></div>
 
