@@ -67,7 +67,7 @@ $(document).ready(function() {
       },
       task: {
         task0: {
-          title: "task0",
+          title: "Feed all pets",
           start: "2018-04-25T14:00",
           end: "2018-04-27T14:00",
           group: "Feed",
@@ -77,7 +77,7 @@ $(document).ready(function() {
           },
         },
         task1: {
-          title: "task1",
+          title: "Shaving Jandy",
           start: "2018-05-03T14:00",
           end: "2018-05-10T15:00",
           group: "Feed",
@@ -96,14 +96,14 @@ $(document).ready(function() {
           },
         },
         task2: {
-          title: "task2",
+          title: "Clean Litter box",
           start: "2018-05-11T14:00",
           end: "2018-05-11T15:00",
           group: "Feed",
           recurring: false,
         },
         task3: {
-          title: "task3",
+          title: "Walk",
           start: "2018-05-01T12:00",
           end: "2018-05-18T13:00",
           group: "Bathe",
