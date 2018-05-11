@@ -118,14 +118,16 @@ $(() => {
         $upcomingBody.append(newItem);
     }
 
-    function addNoti(at, body) {
+    function addNoti(id, at, body) {
         $notiBody.append(
             $('<div class="noti">').append(
                 $('<small class="text-muted float-right">').text(at.fromNow())
             ).append(
                 $('<div class="text-truncate font-weight-bold">').text(body)
-            )
-            ).append($('<hr>'));
+            ).click(() => {
+                database.ref('noti/' + id).remove();
+            })
+        ).append($('<hr>'));
     }
 
     database.ref('task').on('value', (snapshot) => {
@@ -221,18 +223,19 @@ $(() => {
         let con = [];
         for (let id in notis) {
             con.push({
+                id: id,
                 body: notis[id].body,
                 moment: moment(notis[id].at),
             });
         }
         con.sort((a, b) => b.moment.diff(a.moment));
         for (let noti of con) {
-            addNoti(noti.moment, noti.body);
+            addNoti(noti.id, noti.moment, noti.body);
         }
         if (con.length !== 0) {
             $notiBadge.text(con.length);
         } else {
-            $notiBadge.text();
+            $notiBadge.text('');
         }
     });
 });
