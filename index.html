@@ -107,6 +107,26 @@
                 <div id="tab_noti" class="tab-pane p-3" role="tabpanel"></div>
             </div>
         </aside>
+        <div class="modal fade" id="modal" tabindex="-1" role="dialog">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="modal_title">DYDI</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body" id="modal_body">
+                        Did you do it?
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" id="modal_nn" class="btn btn-secondary" data-dismiss="modal">Not Needed</button>
+                        <button type="button" id="modal_ny" class="btn btn-danger" data-dismiss="modal">Not yet</button>
+                        <button type="button" id="modal_y" class="btn btn-primary" data-dismiss="modal">Yes</button>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
     <script>
         $(() => {
