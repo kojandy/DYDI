@@ -11,7 +11,7 @@
     <link href="https://use.fontawesome.com/releases/v5.0.8/css/all.css" rel="stylesheet">
     <link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet" />
     <link href="https://fonts.googleapis.com/css?family=Acme" rel="stylesheet">
-    <script>
+    <!--<script>
     $(document).ready(function() {
         var config = {
             apiKey:"AIzaSyAn9cS4J2VMItPAG7DFDqRfgZfknrVjhQ8",
@@ -22,7 +22,7 @@
         var database = firebase.database();
         var petsRef = database.ref('pets');
     })
-    </script>
+    </script>-->
 
     <style>
         .common {
@@ -53,15 +53,16 @@
 </head>
 <body>
     <h1 style='margin-top : 20px; margin-left : 20px;'> Pet selection </h1>
-    <div class ="body" style='display:inline; margin-top : 20px; margin-left : 40px;'>
-        <div class="container common">
-            <div class="row">
-                <div class="col-xs-12 col-sm-6 col-md-6">
-                    <div class="well well-sm">
-                        <div class="row">
-                            <div class="col-sm-6 col-md-4">
-                                <img src="./images/cat1.jpeg" width="100" height="100" alt="" class="img-rounded img-responsive" />
-                            </div>
+    <div  class="body" style = 'margin-top : 20px; margin-left : 40px;'>
+        <div class="body" style='display:inline;'>
+            <div class="container common">
+                <div class="row">
+                    <div class="col-xs-12 col-sm-6 col-md-6">
+                        <div class="well well-sm">
+                            <div class="row">
+                                <div class="col-sm-6 col-md-4">
+                                    <img src="./images/cat1.jpeg" width="100" height="100" alt="" class="img-rounded img-responsive" />
+                                </div>
                                 <h4>
                                     Momo
                                 </h4>
@@ -71,20 +72,20 @@
                                     </cite>
                                 </small>
                                 <!-- Split button -->
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
 
-        <div class="container common">
-            <div class="row">
-                <div class="col-xs-12 col-sm-6 col-md-6">
-                    <div class="well well-sm">
-                        <div class="row">
-                            <div class="col-sm-6 col-md-4">
-                                <img src="./images/cat2.jpg" width="100" height="100" alt="" class="img-rounded img-responsive" />
-                            </div>
+            <div class="container common">
+                <div class="row">
+                    <div class="col-xs-12 col-sm-6 col-md-6">
+                        <div class="well well-sm">
+                            <div class="row">
+                                <div class="col-sm-6 col-md-4">
+                                    <img src="./images/cat2.jpg" width="100" height="100" alt="" class="img-rounded img-responsive" />
+                                </div>
                                 <h4>
                                     Jandy
                                 </h4>
@@ -95,6 +96,7 @@
                                 </small>
                                 <!-- Split button -->
                             </div>
+                        </div>
                     </div>
                 </div>
             </div>
