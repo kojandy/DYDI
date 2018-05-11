@@ -40,19 +40,31 @@ $(() => {
         }
     });
 
-    function addToday(start, end, title) {
-        $calendar.fullCalendar('renderEvent', {
+    function addToday(start, end, status, title) {
+        let event = {
             title: title,
             start: start.format(),
             end: end.format(),
-        });
+        };
+
+        if (status === 'complete') {
+            event.backgroundColor = 'green';
+            event.borderColor = 'green';
+        } else if (status === 'not yet') {
+            event.backgroundColor = 'red';
+            event.borderColor = 'red';
+        } else if (status === 'not needed') {
+            event.backgroundColor = 'grey'
+            event.borderColor = 'grey';
+        }
+
+        $calendar.fullCalendar('renderEvent', event);
     }
 
-    function addUpcoming(start, title) {
-        $upcomingBody.append(
+    function addUpcoming(start, status, title) {
+        let newItem =
             $('<div>')
                 .addClass('list-group-item')
-                .addClass('list-group-item-accent-warning')
                 .addClass('list-group-item-divider')
                 .append(
                     $('<div class="text-truncate font-weight-bold">').text(title)
@@ -62,7 +74,18 @@ $(() => {
                     .append(start.format('M/D H:mm'))
                     .append(' ~')
                 )
-        );
+        
+        if (status === 'complete') {
+            newItem.addClass('list-group-item-light');
+            newItem.addClass('list-group-item-accent-success');
+        } else if (status === 'not yet') {
+            newItem.addClass('list-group-item-accent-danger');
+        } else if (status === 'not needed') {
+            newItem.addClass('list-group-item-light');
+            newItem.addClass('list-group-item-accent-secondary');
+        }
+
+        $upcomingBody.append(newItem);
     }
 
     function addNoti(at, body) {
@@ -82,11 +105,25 @@ $(() => {
         let con = [];
         for (let id in tasks) {
             if (tasks[id].recurring === false) {
-                con.push({
+                let date = moment().format('Y-MM-DD');
+                let event = {
                     title: tasks[id].title,
                     start: moment(tasks[id].start),
                     end: moment(tasks[id].end),
-                });
+                };
+
+                if (tasks[id].status === undefined) {
+                    event.status = 'not yet';
+                } else {
+                    if (tasks[id].status[date] === undefined) {
+                        event.status = 'not yet';
+                    } else if (tasks[id].status[date]) {
+                        event.status = 'complete';
+                    } else {
+                        event.status = 'not needed';
+                    }
+                }
+                con.push(event);
             } else {
                 let begin = moment(tasks[id].start).startOf('day');
                 let final = moment(tasks[id].end).endOf('day');
@@ -101,11 +138,25 @@ $(() => {
 
                 if (begin.diff(current) < 0 && current.diff(final) < 0) {
                     if (tasks[id].recurring[current.format('d')]) {
-                        con.push({
+                        let date = current.format('Y-MM-DD');
+                        let event = {
                             title: tasks[id].title,
                             start: start,
                             end: end,
-                        })
+                        };
+
+                        if (tasks[id].status === undefined) {
+                            event.status = 'not yet';
+                        } else {
+                            if (tasks[id].status[date] === undefined) {
+                                event.status = 'not yet';
+                            } else if (tasks[id].status[date]) {
+                                event.status = 'complete';
+                            } else {
+                                event.status = 'not needed';
+                            }
+                        }
+                        con.push(event);
                     }
                 }
             }
@@ -124,11 +175,11 @@ $(() => {
         }
 
         for (let task of today) {
-            addToday(task.start, task.end, task.title);
+            addToday(task.start, task.end, task.status, task.title);
         }
 
         for (let task of upcoming) {
-            addUpcoming(task.start, task.title);
+            addUpcoming(task.start, task.status, task.title);
         }
     });
 
