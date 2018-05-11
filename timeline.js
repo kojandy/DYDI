@@ -1,9 +1,5 @@
 $(() => {
-    let config = {
-        apiKey: 'AIzaSyAn9cS4J2VMItPAG7DFDqRfgZfknrVjhQ8',
-        databaseURL: 'https://dydi-82330.firebaseio.com/',
-    };
-    firebase.initializeApp(config);
+    loadLibrary();
 
     let database = firebase.database();
     let $body = $('body');
