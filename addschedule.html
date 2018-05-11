@@ -1,0 +1,275 @@
+﻿<!DOCTYPE html>
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="lib/bootstrap.min.css">
+    <link rel="stylesheet" href="lib/bootstrap.css">
+    <script src="lib/jquery-1.9.0.min.js"></script>
+    <script src="lib/jquery-ui-1.10.0.custom.min.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/4.10.1/firebase.js"></script>
+    <link href="https://fonts.googleapis.com/css?family=Russo+One" rel="stylesheet">
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+    <title>Add schedule</title>
+</head>
+<body>
+    <style>
+        .btn-outline-secondary: {
+            color: #6c757d;
+            background-color: transparent;
+            background-image: none;
+            border-color: #6c757d;
+        }
+
+        h1 {
+            font-family: 'Russo One', sans-serif;
+        }
+
+        .container {
+            border-color: #999999;
+        }
+
+        #selectForm {
+            display: none;
+            border: 6px solid #999999;
+            padding: 2em;
+            width: 400px;
+            text-align: center;
+            background: #fff;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%,-50%);
+            -webkit-transform: translate(-50%,-50%)
+        }
+
+        #select {
+            -webkit-user-select: none; /* Chrome/Safari */
+            -moz-user-select: none; /* Firefox */
+            -ms-user-select: none; /* IE10+ */
+            margin: 0 auto;
+            line-height: 30px;
+            outline-width : 20px;
+            color: white;
+            font-weight: 700;
+            cursor: pointer;
+            color : #555555;
+            width : 100px;
+            text-align :center;
+            border: 1px solid gray;
+            margin-left : 0px;
+        }
+    </style>
+    <form>
+        <div class="container" style="width : 61%; height : 100%;">
+            <h1 style="margin-top : 10px; margin-bottom : 30px; margin-left : 32%;">Add schedule</h1>
+            <div class="form-group">
+                <label for="exampleInputEmail1">Title</label>
+                <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter title">
+                <!--<small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>-->
+            </div>
+
+            <div class="row" style="margin-bottom : 20px">
+                <div class="col">
+                    <label for="exampleInputEmail1">Start Date</label>
+                    <input type="date" id="date" class="form-control" placeholder="First name">
+                </div>
+                <div class="col">
+                    <label for="exampleInputEmail1">End Date</label>
+                    <input type="date" id="date" class="form-control" placeholder="Last name">
+                </div>
+            </div>
+
+            <div class="row" style="margin-bottom : 20px">
+                <div class="col">
+                    <label for="exampleInputEmail1">Start Time</label>
+                    <input type="time" id="time" class="form-control" placeholder="First name">
+                </div>
+                <div class="col">
+                    <label for="exampleInputEmail1">End Time</label>
+                    <input type="time" id="time" class="form-control" placeholder="Last name">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="exampleInputPassword1">Repeat Weekly</label>
+                <div>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="checkbox" id="w1" value="option1">
+                        <label class="form-check-label" id="w1" for="inlineCheckbox1">Monday</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="checkbox" id="w2" value="option2">
+                        <label class="form-check-label" id="w2" for="inlineCheckbox2">Tuesday</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="checkbox" id="w3" value="option2">
+                        <label class="form-check-label" id="w3" for="inlineCheckbox2">Wednsday</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="checkbox" id="w4" value="option2">
+                        <label class="form-check-label" id="w4" for="inlineCheckbox2">Thursday</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="checkbox" id="w5" value="option2">
+                        <label class="form-check-label" id="w5" for="inlineCheckbox2">Friday</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="checkbox" id="w6" value="option2">
+                        <label class="form-check-label" id="w6" for="inlineCheckbox2">Saturday</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="checkbox" id="w7" value="option2">
+                        <label class="form-check-label" id="w7" for="inlineCheckbox2">Sunday</label>
+                        <div class="custom-control custom-checkbox" style="margin-left : 10px">
+                            <input type="checkbox" class="custom-control-input" id="customCheck1">
+                            <label class="custom-control-label" id="All" for="customCheck1">All days</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="exampleInputEmail1">Select Group of task</label>
+                <select class="form-control" id="group"></select>
+            </div>
+
+            <div class="form-group">
+                <label for="exampleFormControlTextarea1">Enter notification</label>
+                <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
+            </div>
+
+            <div class="select">
+                <div class="form-check form-check-inline" style="margin-bottom : 30px">
+                    <div id="select" class="aaa">  Select Pets  </div>
+
+                    <div class="custom-control custom-checkbox" style="margin-left : 10px">
+                        <input type="checkbox" class="custom-control-input" id="aa">
+                        <label class="custom-control-label" id="All" for="aa">All pets</label>
+                    </div>
+                </div>
+            </div>
+
+            <!--<div class="form-check">
+                <input type="checkbox" class="form-check-input" id="exampleCheck1">
+                <label class="form-check-label" for="exampleCheck1">Check me out</label>
+            </div>-->
+            <div>
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </div>
+        </div>
+    </form>
+
+    <div class="popuptext" id="selectForm">
+
+        <h1>Pet Selection</h1>
+
+        <div>
+            <div class="form-check form-check-inline">
+                <input class="form-check-input" type="checkbox" id="w1" value="option1">
+                <label class="form-check-label" id="w1" for="inlineCheckbox1">Momo</label>
+            </div>
+            <div class="form-check form-check-inline">
+                <input class="form-check-input" type="checkbox" id="w2" value="option2">
+                <label class="form-check-label" id="w2" for="inlineCheckbox2">Jandy</label>
+            </div>
+            <div class="form-check form-check-inline">
+                <input class="form-check-input" type="checkbox" id="w3" value="option2">
+                <label class="form-check-label" id="w3" for="inlineCheckbox2">Soju</label>
+            </div>
+            <div class="form-check form-check-inline">
+                <input class="form-check-input" type="checkbox" id="w4" value="option2">
+                <label class="form-check-label" id="w4" for="inlineCheckbox2">Papa</label>
+            </div>
+            <div class="form-check form-check-inline">
+                <input class="form-check-input" type="checkbox" id="w5" value="option2">
+                <label class="form-check-label" id="w5" for="inlineCheckbox2">Baba</label>
+            </div>
+            <div class="form-check form-check-inline">
+                <input class="form-check-input" type="checkbox" id="w6" value="option2">
+                <label class="form-check-label" id="w6" for="inlineCheckbox2">Sasa</label>
+            </div>
+            <div class="form-check form-check-inline">
+                <input class="form-check-input" type="checkbox" id="w7" value="option2">
+                <label class="form-check-label" id="w7" for="inlineCheckbox2">Hoho</label>
+            </div>
+
+            <div>
+                <button type="submit" id ="petsub" style ="margin-top : 10px;"class="btn btn-primary">Submit</button>
+            </div>
+
+        </div>
+    </div>
+
+    <script>
+        $(document).ready(function () {
+            var config = {
+                apiKey: 'AIzaSyAn9cS4J2VMItPAG7DFDqRfgZfknrVjhQ8',
+                databaseURL: 'https://dydi-82330.firebaseio.com/',
+            };
+            firebase.initializeApp(config);
+            var database = firebase.database();
+            var groupRef = database.ref('group');
+            groupRef.on('value', function (snapshot) {
+                snapshot.forEach(function (childSnapshot) {
+                    var option = document.createElement("option");
+                    var title = childSnapshot.val().title;
+                    console.log(title);
+                    option.text = title;
+                    option.value = "myvalue";
+                    var select = document.getElementById("group");
+                    select.appendChild(option)
+                })
+            });
+
+            $('#select').click(function () {
+                $('#selectForm').fadeToggle();
+            })
+            $("#petsub").click(function () {
+                $('#selectForm').fadeToggle();
+            })
+            $(document).mouseup(function (e) {
+                var container = $("#selectForm");
+
+                if (!container.is(e.target) // if the target of the click isn't the container...
+                    && container.has(e.target).length === 0) // ... nor a descendant of the container
+                {
+                    container.fadeOut();
+                }
+            });
+
+            $("#petsub").click(function (e) {
+                var container = $("#selectForm");
+
+                if (!container.is(e.target) // if the target of the click isn't the container...
+                    && container.has(e.target).length === 0) // ... nor a descendant of the container
+                {
+                    container.fadeOut();
+                }
+            });
+
+            var btn = document.getElementById("customCheck1");
+            btn.onclick = function () {
+                if ($("#customCheck1").is(":checked")) {
+                    $("#w1").prop("checked", true);
+                    $("#w2").prop("checked", true);
+                    $("#w3").prop("checked", true);
+                    $("#w4").prop("checked", true);
+                    $("#w5").prop("checked", true);
+                    $("#w6").prop("checked", true);
+                    $("#w7").prop("checked", true);
+                }
+                else {
+                    $("#w1").prop("checked", false);
+                    $("#w2").prop("checked", false);
+                    $("#w3").prop("checked", false);
+                    $("#w4").prop("checked", false);
+                    $("#w5").prop("checked", false);
+                    $("#w6").prop("checked", false);
+                    $("#w7").prop("checked", false);
+                }
+            }
+        })
+    </script>
+</body>
+</html>
