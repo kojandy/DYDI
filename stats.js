@@ -2,17 +2,12 @@
 // has finished loading in the browser.
 $(document).ready(function() {
 
+  loadLibrary();
+
   const group = "Feed";
   const defaultTickCount = 15;
   const completeColor = "green";
   const notneededColor = "grey";
-
-  // Firebase setup
-  const config = {
-    apiKey: "AIzaSyAn9cS4J2VMItPAG7DFDqRfgZfknrVjhQ8",
-    databaseURL: "https://dydi-82330.firebaseio.com/",
-  };
-  firebase.initializeApp(config);
 
   // Firebase Database setup
   const database = firebase.database();
