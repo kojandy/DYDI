@@ -4,6 +4,8 @@ $(document).ready(function() {
 
   const group = "Feed";
   const defaultTickCount = 15;
+  const completeColor = "green";
+  const notneededColor = "grey";
 
   // Firebase setup
   const config = {
@@ -36,7 +38,7 @@ $(document).ready(function() {
         "Sat": 0,
         "Sun": 0,
       };
-      let incomCount = {
+      let notCount = {
         "Mon": 0,
         "Tue": 0,
         "Wed": 0,
@@ -54,7 +56,7 @@ $(document).ready(function() {
               if(status[d])
                 comCount[moment(d).format("ddd")] += 1;
               else
-                incomCount[moment(d).format("ddd")] += 1;
+                notCount[moment(d).format("ddd")] += 1;
             }
           }
         }
@@ -65,13 +67,16 @@ $(document).ready(function() {
 
       data.addColumn("string", "Day");
       data.addColumn("number", "Complete");
-      data.addColumn("number", "Incomplete");
+      data.addColumn("number", "Not Needed");
+
+      comCount["Mon"] += 2;
+      notCount["Mon"] += 1;
 
       let maxCount = 0;
       for(let i = 1; i <= 7; i++) {
         let day = moment().add(i, "days").format("ddd");
-        maxCount = Math.max(maxCount, comCount[day] + incomCount[day]);
-        data.addRow([day, comCount[day], incomCount[day]]);
+        maxCount = Math.max(maxCount, comCount[day] + notCount[day]);
+        data.addRow([day, comCount[day], notCount[day]]);
       }
 
       let tickCount = Math.min(maxCount + 1, defaultTickCount);
@@ -81,10 +86,14 @@ $(document).ready(function() {
 
       // Set chart options
       let options = {
-        title: group + " (7 days)",
+        title: group + " (This week)",
         isStacked: true,
         vAxis: {
           ticks: tickMarks,
+        },
+        series: {
+          0: {color: completeColor},
+          1: {color: notneededColor},
         },
       };
 
@@ -97,7 +106,7 @@ $(document).ready(function() {
       }
 
       // Instantiate and draw our chart, passing in some options.
-      let chart = new google.visualization.ColumnChart($("#chart_div")[0]);
+      let chart = new google.visualization.ColumnChart($("#chartArea")[0]);
       google.visualization.events.addListener(chart, "select", selectHandler);
       chart.draw(data, options);
     });
