@@ -1,6 +1,4 @@
 $(() => {
-    loadLibrary();
-
     let database = firebase.database();
     let $body = $('body');
     let $calendar = $('#calendar');
