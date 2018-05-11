@@ -121,7 +121,7 @@ $(document).ready(function() {
           },
         },
         task4: {
-          title: "task4",
+          title: "Fighting",
           start: "2018-05-12T05:00",
           end: "2018-05-12T07:00",
           group: "Bathe",
