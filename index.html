@@ -85,6 +85,12 @@
                             Statistics
                         </a>
                     </li>
+                    <li class="nav-item">
+                        <a href="#" class="nav-link" id="a_debug">
+                            <span class="nav-icon fas fa-bug"></span>
+                            Debug
+                        </a>
+                    </li>
                 </ul>
             </nav>
         </div>
@@ -156,6 +162,10 @@
             $('#a_stats').click(() => {
                 setActive('#a_stats');
                 $container.load('stats.html');
+            });
+            $('#a_debug').click(() => {
+                setActive('#a_debug');
+                $container.load('init.html');
             });
         });
     </script>
