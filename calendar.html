@@ -83,7 +83,7 @@
                                     start: start,
                                     title: event.title,
                                 }
-                                alert(event.group);
+                                console.log(event.id);
                                 taskRef.child(String(event.title)).set(newobj);
                                 $('#calendar').fullCalendar('refetchEvents');
                                 road();
@@ -163,6 +163,7 @@
                                         textColor: color,
                                         backgroundColor: backgroundcolor,
                                         borderColor: border,
+                                        id: childSnapshot.key,
                                     }
                                     $('#calendar').fullCalendar('renderEvent', event, true);
                         }
@@ -185,7 +186,7 @@
                                         border = "rgb(250, 63, 80)";
                                     }
                                     event = {
-                                        id: childSnapshot.val().id,
+                                        id: childSnapshot.key,
                                         title: childSnapshot.val().title,
                                         start: i.format('YYYY-MM-DD') + "T" + starttime,
                                         end: i.format('YYYY-MM-DD') + "T" + endtime,
@@ -288,10 +289,10 @@
             color: black;
             max-width: 900px;
             margin: 0 auto;
-            //font-size : 16px;
-           // font-family: 'Acme', sans-serif;
-            //font-stretch : ultra-expanded;
-           // border : thin;
+            /* font-size : 16px;
+            font-family: 'Acme', sans-serif;
+            font-stretch : ultra-expanded;
+            border : thin; */
         }
 
         #dydi {
