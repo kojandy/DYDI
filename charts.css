@@ -1,0 +1,8 @@
+body {
+  background-color: #eee;
+}
+
+#chart_div {
+  height: 600px;
+  width: 800px;
+}
