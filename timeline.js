@@ -88,7 +88,26 @@ $(() => {
                     end: moment(tasks[id].end),
                 });
             } else {
-                // TODO: handle recurring tasks
+                let begin = moment(tasks[id].start).startOf('day');
+                let final = moment(tasks[id].end).endOf('day');
+                let current = moment();
+                let date = {
+                    'year': current.get('year'),
+                    'month': current.get('month'),
+                    'date': current.get('date'),
+                };
+                let start = moment(tasks[id].start).set(date);
+                let end = moment(tasks[id].end).set(date);
+
+                if (begin.diff(current) < 0 && current.diff(final) < 0) {
+                    if (tasks[id].recurring[current.format('d')]) {
+                        con.push({
+                            title: tasks[id].title,
+                            start: start,
+                            end: end,
+                        })
+                    }
+                }
             }
         }
         con = con.filter((e) => (e.end.diff(moment().startOf('day'))) > 0);
