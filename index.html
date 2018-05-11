@@ -98,7 +98,6 @@
             </nav>
         </div>
         <main class="main">
-            <object data="main.html" type="text/html"></object>
         </main>
         <aside class="aside-menu">
             <ul class="nav nav-tabs" role="tablist">
@@ -147,8 +146,11 @@
                 $(curr).addClass('active');
             }
 
+            $container.load('main.html');
+
             $('#a_main').click(() => {
                 setActive('#a_main');
+                $container.load('main.html');
             });
             $('#a_tasks').click(() => {
                 setActive('#a_tasks');
