@@ -1,1 +1,241 @@
-a place for DYDI
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>DYDI</title>
+
+    <script src="http://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js" integrity="sha384-smHYKdLADwkXOn1EmN1qk/HfnUcbVRZyYmZ4qpPea6sjB/pTJ0euyQp0Mk8ck+5T" crossorigin="anonymous"></script>
+
+    <link rel="stylesheet" href="https://unpkg.com/@coreui/coreui@2.0.0-rc.1/dist/css/coreui.min.css">
+    <script src="https://unpkg.com/@coreui/coreui@2.0.0-rc.1/dist/js/coreui.min.js"></script>
+
+    <script src="http://momentjs.com/downloads/moment.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.9.0/fullcalendar.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.9.0/fullcalendar.min.js"></script>
+    <link rel="stylesheet" href="lib/scheduler.min.css">
+    <script src="lib/scheduler.min.js"></script>
+
+    <script src="https://www.gstatic.com/firebasejs/4.10.1/firebase.js"></script>
+
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" crossorigin="anonymous">
+    <style>
+        .logo {
+            width: 40px;
+            height: 40px;
+            margin: 5px;
+        }
+        #calendar {
+            padding: 0;
+        }
+        .fc-day-header {
+            display: none;
+        }
+    </style>
+    <script>
+        $(() => {
+            let config = {
+                apiKey: 'AIzaSyAn9cS4J2VMItPAG7DFDqRfgZfknrVjhQ8',
+                databaseURL: 'https://dydi-82330.firebaseio.com/',
+            };
+            firebase.initializeApp(config);
+
+            let database = firebase.database();
+            let $body = $('body');
+            let $calendar = $('#calendar');
+            let $upcomingBody = $('#tl_upcoming');
+            let $notiBody = $('#tab_noti');
+            let $notiBadge = $('#noti_badge');
+
+            $calendar.fullCalendar({
+                header: false,
+                height: 'parent',
+                themeSystem: 'bootstrap4',
+                defaultView: 'agendaDay',
+                nowIndicator: true,
+                schedulerLicenseKey: 'CC-Attribution-NonCommercial-NoDerivatives',
+                height: 300,
+                scrollTime: moment().subtract(1, 'hours').format('HH:mm:ss'),
+                // allDaySlot: false,
+            });
+
+            $('#btn_toggle_nav').click(() => {
+                if ($body.hasClass('sidebar-show')) {
+                    $body.removeClass('sidebar-show');
+                } else {
+                    $body.addClass('sidebar-show');
+                }
+            });
+
+            $('#btn_toggle_aside').click(() => {
+                if ($body.hasClass('aside-menu-show')) {
+                    $body.removeClass('aside-menu-show');
+                } else {
+                    $body.addClass('aside-menu-show');
+                }
+            });
+
+            function addToday(start, end, title) {
+                $calendar.fullCalendar('renderEvent', {
+                    title: title,
+                    start: start.format(),
+                    end: end.format(),
+                });
+            }
+
+            function addUpcoming(start, title) {
+                $upcomingBody.append(
+                    $('<div>')
+                      .addClass('list-group-item')
+                      .addClass('list-group-item-accent-warning')
+                      .addClass('list-group-item-divider')
+                      .append(
+                          $('<div class="text-truncate font-weight-bold">').text(title)
+                      ).append(
+                          $('<small class="text-muted">')
+                            .append($('<span class="far fa-clock" style="margin-right: 5px;">'))
+                            .append(start.format('M/D H:mm'))
+                            .append(' ~')
+                      )
+                );
+            }
+
+            function addNoti(at, body) {
+                $notiBody.append(
+                    $('<div class="noti">').append(
+                        $('<small class="text-muted float-right">').text(at.fromNow())
+                    ).append(
+                        $('<div class="text-truncate font-weight-bold">').text(body)
+                    )
+                  ).append($('<hr>'));
+            }
+
+            database.ref('task').on('value', (snapshot) => {
+                let tasks = snapshot.val();
+                $calendar.fullCalendar('removeEvents');
+                $upcomingBody.empty();
+                let con = [];
+                for (let id in tasks) {
+                    if (tasks[id].recurring === false) {
+                        con.push({
+                            title: tasks[id].title,
+                            start: moment(tasks[id].start),
+                            end: moment(tasks[id].end),
+                        });
+                    } else {
+                        // TODO: handle recurring tasks
+                    }
+                }
+                con = con.filter((e) => (e.end.diff(moment().startOf('day'))) > 0);
+                con.sort((a, b) => a.start.diff(b.start));
+
+                let today = [];
+                let upcoming = [];
+                for (let task of con) {
+                    if (task.start.diff(moment().endOf('day')) < 0) {
+                        today.push(task);
+                    } else {
+                        upcoming.push(task);
+                    }
+                }
+
+                for (let task of today) {
+                    addToday(task.start, task.end, task.title);
+                }
+
+                for (let task of upcoming) {
+                    addUpcoming(task.start, task.title);
+                }
+            });
+
+            database.ref('noti').on('value', (snapshot) => {
+                let notis = snapshot.val();
+                $notiBody.empty();
+                let con = [];
+                for (let id in notis) {
+                    con.push({
+                        body: notis[id].body,
+                        moment: moment(notis[id].at),
+                    });
+                }
+                con.sort((a, b) => b.moment.diff(a.moment));
+                for (let noti of con) {
+                    addNoti(noti.moment, noti.body);
+                }
+                if (con.length !== 0) {
+                    $notiBadge.text(con.length);
+                } else {
+                    $notiBadge.text();
+                }
+            });
+        });
+    </script>
+</head>
+<body class="app sidebar-show aside-menu-show">
+    <header class="app-header navbar">
+        <button id="btn_toggle_nav" class="navbar-toggler aside-menu-toggler">
+            <span class="fas fa-bars" style="color: #777;"></span>
+        </button>
+        <img src="images/cat.png" alt="a cat - DYDI logo" class="logo">
+        <button id="btn_toggle_aside" class="navbar-toggler aside-menu-toggler">
+            <span class="far fa-bell" style="color: #777;"></span>
+        </button>
+    </header>
+    <div class="app-body">
+        <div class="sidebar">
+            <nav class="sidebar-nav">
+                <ul class="nav">
+                    <li class="nav-item">
+                        <a href="#" class="nav-link">
+                            <span class="nav-icon fas fa-home"></span>
+                            Main
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#" class="nav-link">
+                            <span class="nav-icon fas fa-calendar"></span>
+                            Tasks 
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#" class="nav-link">
+                            <span class="nav-icon fas fa-paw"></span>
+                            Pets
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#" class="nav-link">
+                            <span class="nav-icon fas fa-building"></span>
+                            Shop
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+        <main class="main">
+            Main
+        </main>
+        <aside class="aside-menu">
+            <ul class="nav nav-tabs" role="tablist">
+                <li class="nav-item"><a href="#tab_timeline" data-toggle="tab" class="nav-link active">Timeline</a></li>
+                <li class="nav-item"><a href="#tab_noti" data-toggle="tab" class="nav-link">Noti <sup><span id="noti_badge" class="badge badge-pill badge-danger"></span></sup></a></li>
+            </ul>
+            <div class="tab-content">
+                <div id="tab_timeline" class="tab-pane active" role="tabpanel">
+                    <div class="list-group list-group-accent">
+                        <div class="list-group-item list-group-item-accent-secondary bg-light text-center font-weight-bold text-muted text-uppercase small">Today</div>
+                        <div id="calendar" class="list-group-item"></div>
+                        <div class="list-group-item list-group-item-accent-secondary bg-light text-center font-weight-bold text-muted text-uppercase small">Upcoming</div>
+                        <div id="tl_upcoming"></div>
+                    </div>
+                </div>
+                <div id="tab_noti" class="tab-pane p-3" role="tabpanel"></div>
+            </div>
+        </aside>
+    </div>
+</body>
+</html>
