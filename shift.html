@@ -137,10 +137,21 @@
                 let arr = Object.values(notis);
                 for(let i = 0; i < arr.length; i++){
                     console.log(arr[i]);
-                    text += `<strong>${arr[i].body}</strong> - <i>${arr[i].at}</i></br>`;
+                    text += `<strong>${arr[i].body}</strong> -<i>${arr[i].at}</i></br>`;
                 }
+                text += `<form id="input"><input type="text" id="textform"> </input> <input type="submit" value="new memo"></input></form>`;
                 $('#messages').html(text);
+                
             }
+            $("#input").submit(function (event){
+                event.preventDefault();
+                let memo = {
+                    body: $('#textform').val(), 
+                    at: new Date(), 
+                }
+                console.log(memo);
+                //memoRef.push(memo);
+            })
         })
 
     </script>
@@ -159,8 +170,9 @@
                 <div class="roundBoxGreen"> </div>
           </td>
           <td width="100px" style="text-align: center; vertical-align: middle" class="popup" >
-                <i class="fas fa-caret-right" style=" font-size:50px;color:rgb(0, 145, 189)" onclick="popupM()"></i>
-                <span class="popuptext" id="messages">asdf</span>
+          
+            <i class="fas fa-caret-right" style=" font-size:50px;color:rgb(0, 145, 189)" onclick="popupM()"></i>
+            <span class="popuptext" id="messages"></span>
           </td>
           <td>
                 <div class="roundBoxOrange"> </div>
