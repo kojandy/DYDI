@@ -1,4 +1,7 @@
 <head>    
+    <script src="https://www.gstatic.com/firebasejs/4.10.1/firebase.js"></script>
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" crossorigin="anonymous">
     <style>
         body{
             margin: auto;
@@ -20,18 +23,144 @@
             width: 200px;
             height: 150px; 
         }
+
+        
+        .popup {
+            position: relative;
+            display: inline-block;
+            cursor: pointer;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+        }
+
+        .popup .popuptext {
+            visibility: hidden;
+            width: max-content;
+            background-color: #555;
+            color: #fff;
+            text-align: left;
+            border-radius: 6px;
+            padding: 8px;
+            position: absolute;
+            z-index: 1;
+            bottom: 125%;
+            left: 50%;
+            margin-left: max-content/2;
+        }
+
+        .popup .popuptext::after {
+            content: "";
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            margin-left: -5px;
+            border-width: 5px;
+            border-style: solid;
+            border-color: #555 transparent transparent transparent;
+        }
+
+        .popup .show {
+            visibility: visible;
+            -webkit-animation: fadeIn 1s;
+            animation: fadeIn 1s;
+        }
+
+        @-webkit-keyframes fadeIn {
+            from {opacity: 0;} 
+            to {opacity: 1;}
+        }
+
+        @keyframes fadeIn {
+            from {opacity: 0;}
+            to {opacity:1 ;}
+        }
     </style>
-    <script src="./shift.js"></script>
+    
+    <script>
+        $(() => {
+            let config = {
+                apiKey: "AIzaSyAn9cS4J2VMItPAG7DFDqRfgZfknrVjhQ8",
+                databaseURL: "https://dydi-82330.firebaseio.com/",
+            };
+
+            firebase.initializeApp(config);
+
+            let shiftCurr = 0;
+            let shiftNext = 1;
+            let dayCurr = 0;
+
+            let database = firebase.database();
+            let shiftRef = database.ref('shift');
+            let memoRef = database.ref('noti'); //<-수정해야함
+
+
+            shiftRef.on('value', function (snapshot){
+                console.log(snapshot.val());
+                makeTables(snapshot.val());
+            })
+            memoRef.on('value', function(snapshot){
+                console.log(snapshot.val());
+                makePopup(snapshot.val());
+            })
+            function makeTables(shifts){
+                let htmlGreen = makeText(Object.values(shifts)[0], dayCurr);
+                let htmlOrange = makeText(Object.values(shifts)[1], dayCurr);
+
+                $('.roundBoxGreen').html(htmlGreen);
+                $('.roundBoxOrange').html(htmlOrange);
+            }
+            //console.log("asdf");
+            function makeText(shift, day){
+                let text = `<div style="text-align: center"><strong>${Object.values(shift)[2]}:00 ~ ${Object.values(shift)[0]}:00
+                    </strong></div><ul type="disc" style="line-height: 1.1em">`;
+                //console.log(Object.values(Object.values(shift)[1]));
+                //console.log(Object.values(Object.values(shift)[1]).length);
+                //console.log(Object.values(Object.values(shift)[1])[0]);
+                for(let i = 0; i < 
+                        Object.values(
+                            Object.values(Object.values(shift)[1])[day]
+                    ).length; i++){
+                    text += `</br><li>${
+                        Object.values(
+                            Object.values(Object.values(shift)[1])[day]
+                    )[i]
+                    }</li>`;
+                }
+                text += `</ul>`;
+                return text;
+            }
+            function makePopup(notis){
+                console.log("popup changed");
+                let text = ``;
+                let arr = Object.values(notis);
+                for(let i = 0; i < arr.length; i++){
+                    console.log(arr[i]);
+                    text += `<strong>${arr[i].body}</strong> - <i>${arr[i].at}</i></br>`;
+                }
+                $('#messages').html(text);
+            }
+        })
+
+    </script>
+    <script>
+            function popupM(){
+                var popup = document.getElementById("messages");
+                popup.classList.toggle("show");
+            }
+    </script>
 </head>
 <body>
   <h1 style="text-align: left"> Shifts </h1>
-  <table style="align: center">
+  <table >
       <tr>
           <td>
                 <div class="roundBoxGreen"> </div>
           </td>
-          <td width="100px" style="text-align: center">
-                <i class="fas fa-caret-right" style=" font-size:50px;color:rgb(0, 145, 189)"></i>
+          <td width="100px" style="text-align: center; vertical-align: middle" class="popup" >
+                <i class="fas fa-caret-right" style=" font-size:50px;color:rgb(0, 145, 189)" onclick="popupM()"></i>
+                <span class="popuptext" id="messages">asdf</span>
           </td>
           <td>
                 <div class="roundBoxOrange"> </div>
