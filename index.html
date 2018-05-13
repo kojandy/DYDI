@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="ko">
 <head>
     <meta charset="UTF-8">
@@ -42,6 +42,22 @@
         .fc-day-header {
             display: none;
         }
+
+        #selectForm {
+            display: none;
+            padding: 2em;
+            text-align: center;
+            background: #fff;
+            position: fixed;
+            margin-left : 250px;
+        }
+
+        #select {
+            -webkit-user-select: none; /* Chrome/Safari */
+            -moz-user-select: none; /* Firefox */
+            -ms-user-select: none; /* IE10+ */
+        }
+
     </style>
 </head>
 <body class="app sidebar-show aside-menu-show">
@@ -49,7 +65,7 @@
         <button id="btn_toggle_nav" class="navbar-toggler aside-menu-toggler">
             <span class="fas fa-bars" style="color: #777;"></span>
         </button>
-        <a href="#"><img src="images/cat.png" alt="a cat - DYDI logo" id="logo" class="logo"></a>
+        <a href="#"><img src="images/cat.png" alt="a cat - DYDI logo" id="logo" style ="text-align : center;"class="logo"></a>
         <button id="btn_toggle_aside" class="navbar-toggler aside-menu-toggler">
             <span class="far fa-bell" style="color: #777;"></span>
         </button>
@@ -103,6 +119,7 @@
             <ul class="nav nav-tabs" role="tablist">
                 <li class="nav-item"><a href="#tab_timeline" data-toggle="tab" class="nav-link active">Timeline</a></li>
                 <li class="nav-item"><a href="#tab_noti" data-toggle="tab" class="nav-link">Noti <sup><span id="noti_badge" class="badge badge-pill badge-danger"></span></sup></a></li>
+                <span id="select" class="glyphicon" style="margin-left : 75px; margin-top : 10px;">&#x2b;</span>
             </ul>
             <div class="tab-content">
                 <div id="tab_timeline" class="tab-pane active" role="tabpanel">
@@ -136,6 +153,10 @@
                 </div>
             </div>
         </div>
+    </div>
+
+    <div id="selectForm" width="300px" height="600px">
+
     </div>
     <script>
         $(() => {
@@ -177,6 +198,23 @@
                 setActive('#a_debug');
                 $container.load('init.html');
             });
+
+
+            $('#select').click(function () {
+                $('#selectForm').fadeToggle();
+            })
+
+            $(document).mouseup(function (e) {
+                var container = $("#selectForm");
+
+                if (!container.is(e.target) // if the target of the click isn't the container...
+                    && container.has(e.target).length === 0) // ... nor a descendant of the container
+                {
+                    container.fadeOut();
+                }
+            });
+
+            document.getElementById("selectForm").innerHTML = '<object type="text/html" width = 250%  height = 600px; data="addschedule.html"></object>'
         });
     </script>
 </body>
