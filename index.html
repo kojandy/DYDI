@@ -307,7 +307,9 @@
             });
             $('#a_shop').click(() => {
                 setActive('#a_shop');
-                $container.load('shop.html');
+                $container.html(
+                    $('<object data="shop.html" type="text/html" width=100% height=100%>')
+                );
             });
             $('#a_stats').click(() => {
                 setActive('#a_stats');
