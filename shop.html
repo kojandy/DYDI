@@ -13,10 +13,19 @@
         table{
             border-collapse: collapse;
         }
+        table td{
+            width: 120px;
+            border: 2px solid rgb(194, 194, 194);
+            padding: 2px;
+        }
         .shiftTable td{
             text-align: center;
             border: 2px solid rgb(194, 194, 194);
-            margin: 2px;
+            background: rgb(194, 194, 194);
+            color: white;
+            font-weight: bold;
+            margin: 5px;
+            line-height: 150%;
             padding: 2px;
             width: 120px;
         }
@@ -27,10 +36,15 @@
             padding: 2px;
             width: 120px;
         }
+        .left {
+            text-align: right;
+            vertical-align: middle;
+            width: 120px;
+        }
         .shiftTable td .left{
             text-align: right;
             vertical-align: middle;
-            width: 60px
+            width: 60px;
         }
 
     </style>
@@ -60,8 +74,13 @@
                     shift = Object.values(shifts)[i];
                     text += `
                     <tr><td class="left">${shift.start}:00<br>~${shift.end}:00</td>`;
-                    for(let j = 0; j < maxDay; j++){
-                        text += makeText(Object.values(shift.members)[j]);
+                    for(let j = 0; j < 7; j++){
+                        if(j < maxDay){
+                            text += makeText(Object.values(shift.members)[j]);
+                        }
+                        else{
+                            text += `<td></td>`;
+                        }
                     }
                     text += `</tr>`
 
@@ -92,8 +111,20 @@
           <td>Sat</td>
       </tr>
     </table>
+    <table class = "contents">
+      <div ></div>
+    </table>
     <table>
-      <div class = "contents"></div>
+      <tr>
+            <td class = "newShift left" ><i class="fas fa-plus-circle"></i> new shift </td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
     </table>
   
 </body>
