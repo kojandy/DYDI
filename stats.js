@@ -4,12 +4,15 @@ $(document).ready(function() {
   // Firebase Database setup
   const database = firebase.database();
 
+  let currentGroup = undefined;
+
   let groupRef = database.ref("group");
   groupRef.on("value", function(snapshot) {
     $("#stats_nav_tab").empty();
     $("#stats_nav_tabContent").empty();
 
     let firstNav = true;
+    currentGroup = undefined;
 
     snapshot.forEach(function(groupSnapshot) {
       let groupEntry = groupSnapshot.val();
@@ -43,7 +46,10 @@ $(document).ready(function() {
         );
 
         if(firstNav)
+        {
+          currentGroup = title;
           loadAndDraw(title);
+        }
 
         firstNav = false;
 
@@ -58,7 +64,15 @@ $(document).ready(function() {
     });
   });
 
+  let taskRef = database.ref("task");
+  taskRef.on("value", function(snapshot) {
+    loadAndDraw(currentGroup);
+  });
+
   function loadAndDraw(group) {
+
+    if(group === undefined)
+      return;
 
     const chartDiv = $("#chartArea" + group);
     const defaultTickCount = 15;
