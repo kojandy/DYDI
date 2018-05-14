@@ -1,0 +1,100 @@
+
+<!DOCTYPE html>
+<html>
+<head>    
+    <script src="https://www.gstatic.com/firebasejs/4.10.1/firebase.js"></script>
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" crossorigin="anonymous">
+    <style>
+        body{
+            margin: auto;
+            width: max-content;
+        }
+        table{
+            border-collapse: collapse;
+        }
+        .shiftTable td{
+            text-align: center;
+            border: 2px solid rgb(194, 194, 194);
+            margin: 2px;
+            padding: 2px;
+            width: 120px;
+        }
+        .contents td{
+            border-collapse: collapse;
+            border: 2px solid rgb(194, 194, 194);
+            margin: 2px;
+            padding: 2px;
+            width: 120px;
+        }
+        .shiftTable td .left{
+            text-align: right;
+            vertical-align: middle;
+            width: 60px
+        }
+
+    </style>
+    
+    <script>
+        $(() => {
+            let config = {
+                apiKey: "AIzaSyAn9cS4J2VMItPAG7DFDqRfgZfknrVjhQ8",
+                databaseURL: "https://dydi-82330.firebaseio.com/",
+            };
+
+            firebase.initializeApp(config);
+
+            let maxDay = 2;
+
+            let database = firebase.database();
+            let shiftRef = database.ref('shift');
+
+            shiftRef.on('value', function (snapshot){
+                console.log(snapshot.val());
+                makeTables(snapshot.val());
+            })
+            function makeTables(shifts){
+                let text = ``;
+                console.log(Object.values(shifts)[0].start);
+                for(let i = 0; i < Object.values(shifts).length; i++){
+                    shift = Object.values(shifts)[i];
+                    text += `
+                    <tr><td class="left">${shift.start}:00<br>~${shift.end}:00</td>`;
+                    for(let j = 0; j < maxDay; j++){
+                        text += makeText(Object.values(shift.members)[j]);
+                    }
+                    text += `</tr>`
+
+                }
+                $('.contents').html(text);
+            }
+            //console.log("asdf");
+            function makeText(shift){
+                console.log(shift);
+                return `<td>${shift.member0}<br>${shift.member1}</td>`;
+            }
+        })
+
+    </script>
+</head>
+<body>
+  <h1 style="text-align: left"> Shifts </h1>
+  <table class="shiftTable">
+      <tr>
+          <td class="left">
+          </td>
+          <td>Sun</td>
+          <td>Mon</td>
+          <td>Tue</td>
+          <td>Wed</td>
+          <td>Thu</td>
+          <td>Fri</td>
+          <td>Sat</td>
+      </tr>
+    </table>
+    <table>
+      <div class = "contents"></div>
+    </table>
+  
+</body>
+</html>
