@@ -21,7 +21,6 @@ $(() => {
         height: 300,
         scrollTime: moment().subtract(1, 'hours').format('HH:mm:ss'),
         eventClick: (event) => {
-            console.log(event.id);
             let date = event.start.format('Y-MM-DD');
 
             $modalTitle.text(event.title);
