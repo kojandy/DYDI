@@ -56,10 +56,8 @@
                                     start: start,
                                     title: event.title,
                                 }
-                                newobj.status[start2] = false;
-                                taskRef.child(String(event.title)).set(newobj);
-                                $('#calendar').fullCalendar('refetchEvents');
-                                road();
+                                newobj.status[start2] = true;
+                                taskRef.child(String(event.id)).set(newobj);
                             }
                             else if (event.backgroundColor == "white") {
                                 newobj = {
@@ -71,8 +69,7 @@
                                     title: event.title,
                                 }
                                 newobj.status[start2] = false;
-                                taskRef.child(String(event.title)).set(newobj);
-                                $('#calendar').fullCalendar('refetchEvents');
+                                taskRef.child(String(event.id)).set(newobj);
                                 road();
                             }
                             else {
@@ -83,10 +80,7 @@
                                     start: start,
                                     title: event.title,
                                 }
-                                console.log(event.id);
-                                taskRef.child(String(event.title)).set(newobj);
-                                $('#calendar').fullCalendar('refetchEvents');
-                                road();
+                                taskRef.child(String(event.id)).set(newobj);
                             }
                         }
                     else {
