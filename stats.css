@@ -1,11 +1,11 @@
 .tab-pane {
   height: 400px;
-  width: 800px;
+  /* width: 800px; */
 }
 
 .chartArea {
   height: 400px;
-  width: 800px;
+  /* width: 800px; */
 }
 
 /* Fix Google Charts' tooltip flickering bug */
