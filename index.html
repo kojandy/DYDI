@@ -66,9 +66,14 @@
             <span class="fas fa-bars" style="color: #777;"></span>
         </button>
         <a href="#"><img src="images/cat.png" alt="a cat - DYDI logo" id="logo" style ="text-align : center;"class="logo"></a>
-        <button id="btn_toggle_aside" class="navbar-toggler aside-menu-toggler">
-            <span class="far fa-bell" style="color: #777;"></span>
-        </button>
+        <div>
+            <button id="btn_add_schedule" class="navbar-toggler aside-menu-toggler">
+                <span class="far fa-calendar-plus" style="color: #777;"></span>
+            </button>
+            <button id="btn_toggle_aside" class="navbar-toggler aside-menu-toggler">
+                <span class="far fa-bell" style="color: #777;"></span>
+            </button>
+        </div>
     </header>
     <div class="app-body">
         <div class="sidebar">
@@ -119,7 +124,6 @@
             <ul class="nav nav-tabs" role="tablist">
                 <li class="nav-item"><a href="#tab_timeline" data-toggle="tab" class="nav-link active">Timeline</a></li>
                 <li class="nav-item"><a href="#tab_noti" data-toggle="tab" class="nav-link">Noti <sup><span id="noti_badge" class="badge badge-pill badge-danger"></span></sup></a></li>
-                <span id="select" class="glyphicon" style="margin-left : 75px; margin-top : 10px;">&#x2b;</span>
             </ul>
             <div class="tab-content">
                 <div id="tab_timeline" class="tab-pane active" role="tabpanel">
@@ -149,6 +153,115 @@
                         <button type="button" id="modal_nn" class="btn btn-secondary" data-dismiss="modal">Not Needed</button>
                         <button type="button" id="modal_ny" class="btn btn-danger" data-dismiss="modal">Not yet</button>
                         <button type="button" id="modal_y" class="btn btn-success" data-dismiss="modal">Yes</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal fade" id="modal_add_schedule" tabindex="-1" role="dialog">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Add Schedule</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <form action="#">
+                            <div class="container">
+                                <div class="form-group">
+                                    <label for="">Title</label>
+                                    <input type="text" name="" id="" class="form-control" placeholder="Enter Title">
+                                </div>
+                                <div class="form-group">
+                                    <div class="row">
+                                        <div class="col">
+                                            <label for="">Start Date</label>
+                                            <input type="date" name="" id="" class="form-control">
+                                        </div>
+                                        <div class="col">
+                                            <label for="">End Date</label>
+                                            <input type="date" name="" id="" class="form-control">
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col">
+                                            <label for="">Start Time</label>
+                                            <input type="time" name="" id="" class="form-control">
+                                        </div>
+                                        <div class="col">
+                                            <label for="">End Time</label>
+                                            <input type="time" name="" id="" class="form-control">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="row">
+                                        <div class="col">
+                                            <label for="">Repeat</label>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col">
+                                            <div class="btn-group btn-group-toggle" data-toggle="buttons">
+                                                <label for="" class="btn btn-primary">
+                                                    <input type="checkbox" name="" id="">
+                                                    Sun
+                                                </label>
+                                                <label for="" class="btn btn-primary">
+                                                    <input type="checkbox" name="" id="">
+                                                    Mon
+                                                </label>
+                                                <label for="" class="btn btn-primary">
+                                                    <input type="checkbox" name="" id="">
+                                                    Tue
+                                                </label>
+                                                <label for="" class="btn btn-primary">
+                                                    <input type="checkbox" name="" id="">
+                                                    Wed
+                                                </label>
+                                                <label for="" class="btn btn-primary">
+                                                    <input type="checkbox" name="" id="">
+                                                    Thu
+                                                </label>
+                                                <label for="" class="btn btn-primary">
+                                                    <input type="checkbox" name="" id="">
+                                                    Fri
+                                                </label>
+                                                <label for="" class="btn btn-primary">
+                                                    <input type="checkbox" name="" id="">
+                                                    Sat
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="">Select Group of task</label>
+                                    <select name="" id="" class="form-control"></select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="">Notification Body</label>
+                                    <textarea name="" id="" rows="3" class="form-control"></textarea>
+                                </div>
+                                <div class="form-group">
+                                    <label for="">Select Pets</label>
+                                    <select multiple name="" id="" class="form-control">
+                                        <option value="">Momo</option>
+                                        <option value="">Jandy</option>
+                                        <option value="">Soju</option>
+                                        <option value="">Papa</option>
+                                        <option value="">Baba</option>
+                                        <option value="">Sasa</option>
+                                        <option value="">Hoho</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary" data-dismiss="modal">Submit</button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
                     </div>
                 </div>
             </div>
@@ -201,22 +314,9 @@
                 $container.load('init.html');
             });
 
-
-            $('#select').click(function () {
-                $('#selectForm').fadeToggle();
-            })
-
-            $(document).mouseup(function (e) {
-                var container = $("#selectForm");
-
-                if (!container.is(e.target) // if the target of the click isn't the container...
-                    && container.has(e.target).length === 0) // ... nor a descendant of the container
-                {
-                    container.fadeOut();
-                }
+            $('#btn_add_schedule').click(() => {
+                $('#modal_add_schedule').modal();
             });
-
-            document.getElementById("selectForm").innerHTML = '<object type="text/html" width = 250%  height = 600px; data="addschedule.html"></object>'
         });
     </script>
 </body>
