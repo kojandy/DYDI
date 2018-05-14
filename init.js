@@ -20,11 +20,15 @@ $(document).ready(function() {
       noti: {
         noti0: {
           at: "2018-05-03T14:00",
-          body: "dsgfasd",
+          body: "Vaccination",
         },
         noti1: {
-          at: "2018-05-03T14:00",
-          body: "이 편지는 영국에서 최초로 시작되어 일년에...",
+          at: "2018-05-13T18:00",
+          body: "Feed Jandy",
+        },
+        noti2: {
+          at: "2018-05-14T12:00",
+          body: "Checked in: Ohjun Kwon",
         },
       },
       shift: {
@@ -129,6 +133,20 @@ $(document).ready(function() {
           status: {
             "2018-05-12": true,
           },
+        },
+        task5: {
+          title: "HCI",
+          start: "2018-05-14T19:00",
+          end: "2018-05-14T20:30",
+          group: "Bathe",
+          recurring: false,
+        },
+        task6: {
+          title: "DP6 Write-up",
+          start: "2018-05-17T19:00",
+          end: "2018-05-17T20:30",
+          group: "Bathe",
+          recurring: false,
         },
       },
     });
