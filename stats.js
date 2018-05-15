@@ -146,8 +146,9 @@ $(document).ready(function() {
         let maxCount = 0;
         for(let i = 1; i <= 7; i++) {
           let day = moment().add(i, "days").format("ddd");
+          let day_full = moment().add(i, "days").format("ddd (M/D)");
           maxCount = Math.max(maxCount, comCount[day] + notCount[day] + 2 + 1);
-          data.addRow([day, comCount[day] + 1, notCount[day] + 1]);
+          data.addRow([day_full, comCount[day] + 1, notCount[day] + 1]);
         }
 
         let tickCount = Math.min(maxCount + 1, defaultTickCount);
