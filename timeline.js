@@ -230,6 +230,7 @@ $(() => {
     database.ref('noti').on('value', (snapshot) => {
         let notis = snapshot.val();
         $notiBody.empty();
+        $('.tooltip').remove();
         let con = [];
         for (let id in notis) {
             con.push({
