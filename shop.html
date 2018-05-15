@@ -59,23 +59,29 @@
             let database = firebase.database();
             let shiftRef = database.ref('shift');
             shiftRef.on('value', function (snapshot){
-                console.log(snapshot.val());
+                //console.log(snapshot.val());
                 makeTables(snapshot.val());
             })
             function makeTables(shifts){
                 let text = ``;
-                console.log(Object.values(shifts)[0].start);
+                //console.log(Object.values(shifts)[0].start);
                 for(let i = 0; i < Object.values(shifts).length; i++){
                     shift = Object.values(shifts)[i];
                     text += `
                     <tr><td class="left">${shift.start}<br>~${shift.end}</td>`;
                     for(let j = 0; j < 7; j++){
-                        if(j < maxDay){
-                            text += makeText(Object.values(shift.members)[j]);
+                        //console.log(shift.members);
+                        if(!(shift.members === undefined)){
+                            if(j < Object.values(shift.members).length){
+                                text += makeText(Object.values(shift.members)[j]);
+                            }
+                            else{
+                                text += `<td></td>`;
+                            }
                         }
                         else{
-                            text += `<td></td>`;
-                        }
+                                        text += `<td></td>`;
+                                    }            
                     }
                     text += `</tr>`
                 }
@@ -83,31 +89,21 @@
             }
             //console.log("asdf");
             function makeText(shift){
-                console.log(shift);
+                //console.log(shift);
                 return `<td>${shift.member0}<br>${shift.member1}</td>`;
             }
 
             function addRow(){
                 let shift = {
 
-                    start: $('#formStart').val(),
-                    end: $('#formEnd').val(),
+                    start: ""+$('#formStartH').val()+":"+$('#formStartM').val(),
+                    end: ""+$('#formEndH').val()+":"+$('#formEndM').val(),
 
                     members:{
 
-                        day0: {
-                            member0: "asdf",
-                            member1: "qweqq",
-                        },
-
-                        day1: {
-                            member0: "pohjpi",
-                            member1: "zxczv",
-                        },
-
                     },
                 }
-                console.log(shift);
+                //console.log(shift);
                 shiftRef.push(shift);
             }
         }
@@ -134,8 +130,15 @@
     <table>
       <tr>
             <td class = "newShift left" ><p style="cursor:pointer" onclick="addRow()"><i class="fas fa-plus-circle"></i> new shift </p></td>
-            <td><input type="text" id="formStart" style="width: 20px"></td>
-            <td><input type="text" id="formEnd" style="width: 20px"></td>
+            <td>
+                <input type="number" min="0" max="23" id="formStartH" style="width: 40px">:
+                <input type="number" min="0" max="59" id="formStartM" style="width: 40px">
+            </td>
+            <!-- 이 두줄은 바꿀것 -->
+            <td>
+                <input type="number" min="0" max="23" id="formEndH" style="width: 40px">:
+                <input type="number" min="0" max="59" id="formEndM" style="width: 40px">
+            </td>
             <td></td>
             <td></td>
             <td></td>
