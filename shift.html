@@ -9,7 +9,7 @@
             margin: auto;
             width: max-content;
         }
-        .roundBoxGreen{    
+        .roundBoxGreen{
             border-radius: 25px;
             background : rgb(233, 253, 217);
             border: 2px solid #73AD21;
@@ -21,9 +21,9 @@
             background : rgb(253, 245, 217);
             border: 2px solid rgb(255, 196, 0);
             width: 200px;
-            height: 150px; 
+            height: 150px;
         }
-        
+
         .popup {
             position: relative;
             display: inline-block;
@@ -35,7 +35,7 @@
         }
         .popup .popuptext {
             visibility: hidden;
-            opacity:0.8;
+            opacity:0.9;
             width: 400;
             background-color: #555;
             color: #fff;
@@ -49,12 +49,12 @@
             z-index: 1;
             top: 100%;
             left: 50%;
-            margin-left: -212;
+            margin-left: -200;
         }
         .popup .popuptext::after {
             content: "";
             position: absolute;
-            opacity:0.8;
+            opacity:0.9;
             top: 100%;
             left: 50%;
             margin-left: -5px;
@@ -68,15 +68,15 @@
             animation: fadeIn 0.5s;
         }
         @-webkit-keyframes fadeIn {
-            from {opacity: 0;} 
-            to {opacity: 0.8;}
+            from {opacity: 0;}
+            to {opacity: 0.9;}
         }
         @keyframes fadeIn {
             from {opacity: 0;}
-            to {opacity:0.8 ;}
+            to {opacity:0.9;}
         }
     </style>
-    
+
     <script>
         {
             let config = {
@@ -91,11 +91,11 @@
             let shiftRef = database.ref('shift');
             let memoRef = database.ref('noti'); //<-수정해야함
             shiftRef.on('value', function (snapshot){
-                console.log(snapshot.val());
+                //console.log(snapshot.val());
                 makeTables(snapshot.val());
             })
             memoRef.on('value', function(snapshot){
-                console.log(snapshot.val());
+                //console.log(snapshot.val());
                 makePopup(snapshot.val());
             })
             function makeTables(shifts){
@@ -111,7 +111,7 @@
                 //console.log(Object.values(Object.values(shift)[1]));
                 //console.log(Object.values(Object.values(shift)[1]).length);
                 //console.log(Object.values(Object.values(shift)[1])[0]);
-                for(let i = 0; i < 
+                for(let i = 0; i <
                         Object.values(
                             Object.values(Object.values(shift)[1])[day]
                     ).length; i++){
@@ -125,33 +125,24 @@
                 return text;
             }
             function makePopup(notis){
-                console.log("popup changed");
+                //console.log("popup changed");
                 let text = ``;
                 let arr = Object.values(notis);
                 for(let i = 0; i < arr.length; i++){
-                    console.log(arr[i]);
+                    //console.log(moment(arr[i].at).format("MM-DD HH:mm"));
                     text += `<div class="float-left"> <strong>${arr[i].body}</strong></div>
-                    <div class="float-right"> -<i>${moment(arr[i].at).format("MM-DD HH:MM")}</i></div> </br>`;
+                    <div class="float-right"> <i>${moment(arr[i].at).format("MM-DD HH:mm")}</i></div> </br>`;
                 }
-                text += `<div class= "float-left"><form id="input"><input type="text" id="textform" style="width:240px"></input></div> <div class= "float-right"><input type="submit" value="Add Memo" style="width:140px" onclick="inputM();"></input></div></form>`;
+                text += `<div class= "float-left"><form id="input"><input type="text" id="textform" style="width:290px"></input></div> <div class= "float-right"><input type="submit" value="Add" style="width:90px" onclick="inputM();"></input></div></form>`;
                 $('#messages').html(text);
-                
+
             }
-            $("#input").submit(function (event){
-                event.preventDefault();
-                let memo = {
-                    body: $('#textform').val(), 
-                    at: new Date(), 
-                }
-                console.log(memo);
-                memoRef.push(memo);
-            })
             function inputM(){
                 let memo = {
-                    body: $('#textform').val(), 
-                    at: moment().format(), 
+                    body: $('#textform').val(),
+                    at: moment().format(),
                 }
-                console.log(memo);
+                //console.log(memo);
                 memoRef.push(memo);
             }
         }
@@ -171,7 +162,7 @@
                 <div class="roundBoxGreen"> </div>
           </td>
           <td width="100px" style="text-align: center; vertical-align: middle" class="popup" >
-          
+
             <i class="fas fa-caret-right" style=" font-size:50px;color:rgb(0, 145, 189)" onclick="popupM()"></i>
             <span class="popuptext" id="messages"></span>
           </td>
@@ -181,5 +172,5 @@
       </tr>
 
     </table>
-  
+
 </body>

@@ -107,7 +107,7 @@ $(() => {
                     });
                     $('#modal').modal();
                 });
-        
+
         if (status === 'complete') {
             newItem.addClass('list-group-item-light');
             newItem.addClass('list-group-item-accent-success');
