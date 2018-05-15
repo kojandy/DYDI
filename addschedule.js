@@ -1,4 +1,5 @@
 $(() => {
+    const $modal = $("#modal_add_schedule");
     const $form = $('#add_form');
     const database = firebase.database();
 
@@ -41,6 +42,8 @@ $(() => {
                 at: task.start,
             });
         }
+
+        $modal.modal('hide');
     });
     $('#add_reset').click(() => {
         for (let i = 0; i < 7; ++i) {
