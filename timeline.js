@@ -92,7 +92,7 @@ $(() => {
                     .append($('<span class="far fa-clock" style="margin-right: 5px;">'))
                     .append(start.format('M/D H:mm'))
                     .append(' ~')
-                ).click(() => {
+                ).css('cursor', 'pointer').click(() => {
                     let date = start.format('Y-MM-DD');
 
                     $modalTitle.text(title);
@@ -127,7 +127,7 @@ $(() => {
                 $('<small class="text-muted float-right">').text(at.fromNow())
             ).append(
                 $('<div class="text-truncate font-weight-bold">').text(body)
-            ).click(() => {
+            ).css('cursor', 'pointer').click(() => {
                 database.ref('noti/' + id).remove();
             })
         ).append($('<hr>'));
