@@ -35,11 +35,11 @@
     * To avoid confusion, user can drag and drop only non-repeating tasks.
 
 * Shop (shop.\*)
-  * Show  timetable for the part-time job
-  * reflects current/next shift status in the main page
-  * can add new shift or modify already exist shift
-  
+  * Show  timetable for the part-time job.
+  * reflects current/next shift status in the main page.
+  * can add new shift or modify already exist shift.
+
 * Statistics (stats.\*)
   * Show statistics of tasks of past 7 days, in groups.
-  * Immediately reflects group/task state changes
-  * Color scheme is same as timeline
+  * Immediately reflects group/task state changes.
+  * Color scheme is same as timeline.
