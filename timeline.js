@@ -122,15 +122,22 @@ $(() => {
     }
 
     function addNoti(id, at, body) {
+        const $body = $('<div>')
+                        .addClass('text-truncate')
+                        .addClass('font-weight-bold')
+                        .attr('data-toggle', 'tooltip')
+                        .attr('data-placement', 'bottom')
+                        .attr('title', body)
+                        .text(body);
+
         $notiBody.append(
             $('<div class="noti">').append(
                 $('<small class="text-muted float-right">').text(at.fromNow())
-            ).append(
-                $('<div class="text-truncate font-weight-bold">').text(body)
-            ).css('cursor', 'pointer').click(() => {
+            ).append($body).css('cursor', 'pointer').click(() => {
                 database.ref('noti/' + id).remove();
             })
         ).append($('<hr>'));
+        $body.tooltip();
     }
 
     database.ref('task').on('value', (snapshot) => {
