@@ -49,7 +49,7 @@
             z-index: 1;
             top: 100%;
             left: 50%;
-            margin-left: -212;
+            margin-left: -200;
         }
         .popup .popuptext::after {
             content: "";
@@ -91,11 +91,11 @@
             let shiftRef = database.ref('shift');
             let memoRef = database.ref('noti'); //<-수정해야함
             shiftRef.on('value', function (snapshot){
-                console.log(snapshot.val());
+                //console.log(snapshot.val());
                 makeTables(snapshot.val());
             })
             memoRef.on('value', function(snapshot){
-                console.log(snapshot.val());
+                //console.log(snapshot.val());
                 makePopup(snapshot.val());
             })
             function makeTables(shifts){
@@ -125,13 +125,13 @@
                 return text;
             }
             function makePopup(notis){
-                console.log("popup changed");
+                //console.log("popup changed");
                 let text = ``;
                 let arr = Object.values(notis);
                 for(let i = 0; i < arr.length; i++){
-                    console.log(arr[i]);
+                    //console.log(moment(arr[i].at).format("MM-DD HH:mm"));
                     text += `<div class="float-left"> <strong>${arr[i].body}</strong></div>
-                    <div class="float-right"> <i>${moment(arr[i].at).format("MM-DD HH:MM")}</i></div> </br>`;
+                    <div class="float-right"> <i>${moment(arr[i].at).format("MM-DD HH:mm")}</i></div> </br>`;
                 }
                 text += `<div class= "float-left"><form id="input"><input type="text" id="textform" style="width:290px"></input></div> <div class= "float-right"><input type="submit" value="Add" style="width:90px" onclick="inputM();"></input></div></form>`;
                 $('#messages').html(text);
@@ -142,7 +142,7 @@
                     body: $('#textform').val(), 
                     at: moment().format(), 
                 }
-                console.log(memo);
+                //console.log(memo);
                 memoRef.push(memo);
             }
         }
