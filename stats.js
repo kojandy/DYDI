@@ -15,7 +15,6 @@ $(document).ready(function() {
     });
 
     // Observe one or multiple elements
-    console.log($("#stats_nav_" + group)[0]);
     ro.observe($("#stats_nav_" + group)[0]);
   }
 
@@ -158,7 +157,7 @@ $(document).ready(function() {
 
         // Set chart options
         let options = {
-          title: group + " (This week)",
+          title: group + " (Past 7 days)",
           isStacked: true,
           vAxis: {
             ticks: tickMarks,
