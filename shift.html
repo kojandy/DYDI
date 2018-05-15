@@ -35,7 +35,7 @@
         }
         .popup .popuptext {
             visibility: hidden;
-            opacity:0.8;
+            opacity:0.9;
             width: 400;
             background-color: #555;
             color: #fff;
@@ -54,7 +54,7 @@
         .popup .popuptext::after {
             content: "";
             position: absolute;
-            opacity:0.8;
+            opacity:0.9;
             top: 100%;
             left: 50%;
             margin-left: -5px;
@@ -69,11 +69,11 @@
         }
         @-webkit-keyframes fadeIn {
             from {opacity: 0;} 
-            to {opacity: 0.8;}
+            to {opacity: 0.9;}
         }
         @keyframes fadeIn {
             from {opacity: 0;}
-            to {opacity:0.8 ;}
+            to {opacity:0.9;}
         }
     </style>
     
@@ -131,21 +131,12 @@
                 for(let i = 0; i < arr.length; i++){
                     console.log(arr[i]);
                     text += `<div class="float-left"> <strong>${arr[i].body}</strong></div>
-                    <div class="float-right"> -<i>${moment(arr[i].at).format("MM-DD HH:MM")}</i></div> </br>`;
+                    <div class="float-right"> <i>${moment(arr[i].at).format("MM-DD HH:MM")}</i></div> </br>`;
                 }
-                text += `<div class= "float-left"><form id="input"><input type="text" id="textform" style="width:240px"></input></div> <div class= "float-right"><input type="submit" value="Add Memo" style="width:140px" onclick="inputM();"></input></div></form>`;
+                text += `<div class= "float-left"><form id="input"><input type="text" id="textform" style="width:290px"></input></div> <div class= "float-right"><input type="submit" value="Add" style="width:90px" onclick="inputM();"></input></div></form>`;
                 $('#messages').html(text);
                 
             }
-            $("#input").submit(function (event){
-                event.preventDefault();
-                let memo = {
-                    body: $('#textform').val(), 
-                    at: new Date(), 
-                }
-                console.log(memo);
-                memoRef.push(memo);
-            })
             function inputM(){
                 let memo = {
                     body: $('#textform').val(), 
