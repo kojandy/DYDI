@@ -4,9 +4,9 @@
 ### [Demo] (https://dydi.kojandy.com)
 
 ## Implementations
-### Timeline tabs(index.html)
-#### The present time is marked by a red line in the middle.
-- User can compare the today’s task with the current time to know when to work.
+* Timeline tabs(index.html)
+  * The present time is marked by a red line in the middle.
+    * User can compare the today’s task with the current time to know when to work.
 #### User can select completion and necessity of each task.
 - When user select each task then pop up will pops up and ask user to select completion and necessity of that task.
 - If user select one then it is linked to firebase and reflected in calendar.
