@@ -46,11 +46,15 @@ $(() => {
         }
     });
 
-    $('#btn_toggle_aside').click(() => {
+    const $btnToggleAside = $('#btn_toggle_aside');
+
+    $btnToggleAside.click(() => {
         if ($body.hasClass('aside-menu-show')) {
             $body.removeClass('aside-menu-show');
+            $btnToggleAside.html($('<span class="fas fa-outdent" style="color: #777;">'));
         } else {
             $body.addClass('aside-menu-show');
+            $btnToggleAside.html($('<span class="fas fa-indent" style="color: #777;">'));
         }
     });
 
