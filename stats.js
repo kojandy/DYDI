@@ -4,14 +4,22 @@ $(document).ready(function() {
   // Firebase Database setup
   const database = firebase.database();
 
-  let currentGroup = undefined;
-
   function focusOnGroup(group) {
+    if(group === undefined)
+      return;
+
     loadAndDraw(group);
-    new ResizeSensor($("#stats_nav_" + group), function() {
-      console.log('content dimension changed');
+
+    var ro = new ResizeObserver( function(entries) {
+      loadAndDraw(group);
     });
+
+    // Observe one or multiple elements
+    console.log($("#stats_nav_" + group)[0]);
+    ro.observe($("#stats_nav_" + group)[0]);
   }
+
+  let currentGroup = undefined;
 
   let groupRef = database.ref("group");
   groupRef.on("value", function(snapshot) {
