@@ -1,13 +1,13 @@
 
 <!DOCTYPE html>
 <html>
-<head>
+<head>    
     <script src="https://www.gstatic.com/firebasejs/4.10.1/firebase.js"></script>
     <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" crossorigin="anonymous">
     <style>
         body{
-            margin: 0 auto;
+            margin: auto;
             width: max-content;
         }
         table{
@@ -47,7 +47,7 @@
             width: 60px;
         }
     </style>
-
+    
     <script>
         {
             let config = {
@@ -68,7 +68,7 @@
                 for(let i = 0; i < Object.values(shifts).length; i++){
                     shift = Object.values(shifts)[i];
                     text += `
-                    <tr><td class="left">${shift.start}:00<br>~${shift.end}:00</td>`;
+                    <tr><td class="left">${shift.start}<br>~${shift.end}</td>`;
                     for(let j = 0; j < 7; j++){
                         if(j < maxDay){
                             text += makeText(Object.values(shift.members)[j]);
@@ -89,12 +89,12 @@
 
             function addRow(){
                 let shift = {
-
-                    start: $('#formStart').val(),
-                    end: $('#formEnd').val(),
-
+                    
+                    start: $('#formStart').val(), 
+                    end: $('#formEnd').val(), 
+                    
                     members:{
-
+                        
                         day0: {
                             member0: "asdf",
                             member1: "qweqq",
@@ -103,8 +103,8 @@
                         day1: {
                             member0: "pohjpi",
                             member1: "zxczv",
-                        }
-
+                        },
+                        
                     },
                 }
                 console.log(shift);
@@ -143,6 +143,6 @@
             <td></td>
         </tr>
     </table>
-
+  
 </body>
 </html>
