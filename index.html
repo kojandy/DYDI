@@ -29,6 +29,7 @@
     </script>
 
     <script src="timeline.js"></script>
+    <script src="addschedule.js"></script>
 
     <style>
         .logo {
@@ -174,27 +175,27 @@
                             <div class="container">
                                 <div class="form-group">
                                     <label for="">Title</label>
-                                    <input type="text" name="" id="" class="form-control" placeholder="Enter Title">
+                                    <input type="text" name="" id="add_title" class="form-control" placeholder="Enter Title">
                                 </div>
                                 <div class="form-group">
                                     <div class="row">
                                         <div class="col">
                                             <label for="">Start Date</label>
-                                            <input type="date" name="" id="" class="form-control">
+                                            <input type="date" name="" id="add_start_date" class="form-control">
                                         </div>
                                         <div class="col">
                                             <label for="">End Date</label>
-                                            <input type="date" name="" id="" class="form-control">
+                                            <input type="date" name="" id="add_end_date" class="form-control">
                                         </div>
                                     </div>
                                     <div class="row">
                                         <div class="col">
                                             <label for="">Start Time</label>
-                                            <input type="time" name="" id="" class="form-control">
+                                            <input type="time" name="" id="add_start_time" class="form-control">
                                         </div>
                                         <div class="col">
                                             <label for="">End Time</label>
-                                            <input type="time" name="" id="" class="form-control">
+                                            <input type="time" name="" id="add_end_time" class="form-control">
                                         </div>
                                     </div>
                                 </div>
@@ -241,18 +242,18 @@
                                 </div>
                                 <div class="form-group">
                                     <label for="">Task Group</label>
-                                    <select name="" id="" class="form-control">
+                                    <select name="" id="add_task_group" class="form-control">
                                         <option value="">Feed</option>
                                         <option value="">Bath</option>
                                     </select>
                                 </div>
                                 <div class="form-group">
                                     <label for="">Notification Body</label>
-                                    <textarea name="" id="" rows="3" class="form-control"></textarea>
+                                    <textarea name="" id="add_noti_body" rows="3" class="form-control"></textarea>
                                 </div>
                                 <div class="form-group">
                                     <label for="">Select Pets</label>
-                                    <select multiple name="" id="" class="form-control">
+                                    <select multiple name="" id="add_select_pets" class="form-control">
                                         <option value="">Momo</option>
                                         <option value="">Jandy</option>
                                         <option value="">Soju</option>
@@ -299,7 +300,7 @@
             $('#a_tasks').click(() => {
                 setActive('#a_tasks');
                 $container.html(
-                    $('<object data="calendar.html" type="text/html" width=100% height=99%>')
+                    $('<object data="calendar.html" type="text/html" width=100% height=99% style="overflow: auto;">')
                 );
             });
             $('#a_pets').click(() => {
