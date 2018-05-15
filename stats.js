@@ -40,9 +40,7 @@ $(document).ready(function() {
           + title +
           `" role="tabpanel" aria-labelledby="stats_nav_`
           + title +
-          `_tab"><div class="chartArea" id="`
-          + "chartArea" + title +
-          `"></div></div>`
+          `_tab"></div>`
         );
 
         if(firstNav)
@@ -74,7 +72,7 @@ $(document).ready(function() {
     if(group === undefined)
       return;
 
-    const chartDiv = $("#chartArea" + group);
+    const chartDiv = $("#stats_nav_" + group);
     const defaultTickCount = 15;
     const completeColor = "green";
     const notneededColor = "grey";
@@ -131,14 +129,11 @@ $(document).ready(function() {
         data.addColumn("number", "Complete");
         data.addColumn("number", "Not Needed");
 
-        comCount["Mon"] += 2;
-        notCount["Mon"] += 1;
-
         let maxCount = 0;
         for(let i = 1; i <= 7; i++) {
           let day = moment().add(i, "days").format("ddd");
-          maxCount = Math.max(maxCount, comCount[day] + notCount[day]);
-          data.addRow([day, comCount[day], notCount[day]]);
+          maxCount = Math.max(maxCount, comCount[day] + notCount[day] + 2 + 1);
+          data.addRow([day, comCount[day] + 1, notCount[day] + 1]);
         }
 
         let tickCount = Math.min(maxCount + 1, defaultTickCount);
@@ -157,8 +152,15 @@ $(document).ready(function() {
             0: {color: completeColor},
             1: {color: notneededColor},
           },
-          width: 700,
-          height: 300,
+          chartArea: {
+            width: "100%",
+          },
+          bar: {
+            groupWidth: "38.2%",
+          },
+          legend: {
+            position: "bottom",
+          },
         };
 
         function selectHandler() {
