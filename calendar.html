@@ -235,54 +235,6 @@
                     })
                 })
             }
-
-            //function reroad() {
-            //    taskRef.on('value', function (snapshot) {
-            //        snapshot.forEach(function (childSnapshot) {
-            //            var date;
-            //            var year;
-            //            var month;
-            //            var date2;
-            //            var id = childSnapshot.val().id;
-            //            if (!(childSnapshot.val().recurring == false)) {
-            //                database.ref('task').child(childSnapshot.key).child("status").on('value', function (childchildsnapshot) {
-            //                    childchildsnapshot.forEach(function (repeatsnapshot) {
-            //                        date = repeatsnapshot.key;
-            //                        //year = date.split("-")[0];
-            //                        //month = date.split("-")[1];
-            //                        //date2 = date.split("-")[2];
-            //                        //if (Number(month) < 10) {
-            //                        //    month = month.split("0")[1];
-            //                        //}
-            //                        //if (Number(date2) < 10) {
-            //                        //    date2 = date2.split("0")[1];
-            //                        //}
-            //                         $('#calendar').fullCalendar('removeEvents', function (event) {
-            //                                    ///if(event.start.toDateString()===new Date(Number(year), Number(month), Number(date2)).toDateString()){
-            //                              alert(event.id);
-            //                              if (event.id == id) {
-            //                                  alert("a");
-            //                                        return true;
-            //                               }
-            //                               })
-            //                            ///}
-            //                    })
-            //                    var event = {
-            //                        title: childSnapshot.val().title,
-            //                        start: date + "T" + childSnapshot.val().start.split("T")[1],
-            //                        end: date + "T" + childSnapshot.val().end.split("T")[1],
-            //                        dow: [],
-            //                        allday: false,
-            //                        textColor: "black",
-            //                        backgroundColor: "pink",
-            //                        borderColor: "pink",
-            //                    }
-            //                    $('#calendar').fullCalendar('renderEvent', event, true);
-            //                })
-            //            }
-            //        })
-            //    });
-            //}
             road();
         })
     </script>
@@ -338,11 +290,7 @@
     </style>
 </head>
 <body style="background-color:white;">
-    <!--<div id="dydi">
-        <img src="images/cat.png" width="40" height="40" style="margin-left : 40%; margin-right : 5px">
-        <span style="padding-bottom : 50px; font-size : 40px; font-family : Nova Flat; font-weight : bold;">DYDI</span><span style="padding-bottom : 50px; font-size : 25px; font-weight : bold;"> Calendar</span>
-        <span id="clock" style="margin-left : 11%; color : gray; font-size : 20px;"></span>
-    </div>-->
+
 
     <div id='calendar'></div>
 
