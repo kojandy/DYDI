@@ -160,7 +160,7 @@ $(document).ready(function() {
             1: {color: notneededColor},
           },
           chartArea: {
-            width: "100%",
+            width: "95%",
           },
           bar: {
             groupWidth: "38.2%",
