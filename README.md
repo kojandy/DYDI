@@ -30,7 +30,7 @@
 #### Differentiate completion and necessity by color.
 - Same with timeline.
 When user brings the mouse to each task then calendar tells user what kind of tasks it is.
-####User can drag and drop tasks at the calendar.
+#### User can drag and drop tasks at the calendar.
 - When user changes the date of a task by drag and drop at the calendar, then it is linked to firebase and reflected in timeline.
 - To avoid confusion, user can drag and drop only non-repeating tasks.
 
