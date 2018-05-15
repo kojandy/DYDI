@@ -4,7 +4,7 @@
 ### [Link to Demo](http://dydi.kojandy.com)
 
 ## Implementations
-* Timeline tabs(index.html)
+* Timeline tabs (index.\*)
   * The present time is marked by a red line in the middle.
     * User can compare the today’s task with the current time to know when to work.
   * User can select completion and necessity of each task.
@@ -15,17 +15,17 @@
     * unfinished tasks : red color
     * not needed tasks : gray color
 
-* Noti tabs(index.html)
+* Noti tabs (index.\*)
   * The number of notifications is provided in a small red circle in the Noti tab.
   * When user click each notification then it will delete.
 
-* Add schedule(index.html)
+* Add schedule (index.\*)
   * Select repetition status.
     * Tasks of managing pets will often be repeated, so we allow user to choice days to repeat, date to start and date to end.
   * Select pets
     * User can choose among the managed pets to perform the task together.
 
-* Tasks(calendar.html)
+* Tasks (calendar.\*)
   * User can see the tasks by month, week, day and list.
   * Differentiate completion and necessity by color.
     * Same with timeline.
@@ -35,4 +35,7 @@
     * To avoid confusion, user can drag and drop only non-repeating tasks.
 
 * Shop
-* Statistics
+* Statistics (stats.\*)
+  * Show statistics of tasks of past 7 days, in groups.
+  * Immediately reflects group/task state changes
+  * Color scheme is same as timeline
