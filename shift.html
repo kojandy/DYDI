@@ -14,7 +14,7 @@
             background : rgb(233, 253, 217);
             border: 2px solid #73AD21;
             width: 200px;
-            height: 150px; 
+            height: 150px;
         }
         .roundBoxOrange{
             border-radius: 25px;
@@ -35,13 +35,14 @@
         }
         .popup .popuptext {
             visibility: hidden;
+            opacity:0.8;
             width: 400;
             background-color: #555;
             color: #fff;
             /*
             text-align: left;
             */
-            line-height: 160%;
+            line-height: 200%;
             border-radius: 6px;
             padding: 8px;
             position: absolute;
@@ -53,6 +54,7 @@
         .popup .popuptext::after {
             content: "";
             position: absolute;
+            opacity:0.8;
             top: 100%;
             left: 50%;
             margin-left: -5px;
@@ -67,11 +69,11 @@
         }
         @-webkit-keyframes fadeIn {
             from {opacity: 0;} 
-            to {opacity: 1;}
+            to {opacity: 0.8;}
         }
         @keyframes fadeIn {
             from {opacity: 0;}
-            to {opacity:1 ;}
+            to {opacity:0.8 ;}
         }
     </style>
     
@@ -129,7 +131,7 @@
                 for(let i = 0; i < arr.length; i++){
                     console.log(arr[i]);
                     text += `<div class="float-left"> <strong>${arr[i].body}</strong></div>
-                    <div class="float-right"> -<i>${arr[i].at}</i></div> </br>`;
+                    <div class="float-right"> -<i>${moment(arr[i].at).format("MM-DD HH:MM")}</i></div> </br>`;
                 }
                 text += `<div class= "float-left"><form id="input"><input type="text" id="textform" style="width:240px"></input></div> <div class= "float-right"><input type="submit" value="Add Memo" style="width:140px" onclick="inputM();"></input></div></form>`;
                 $('#messages').html(text);
@@ -147,7 +149,7 @@
             function inputM(){
                 let memo = {
                     body: $('#textform').val(), 
-                    at: moment().format("YYYY-MM-DD[T]HH:MM"), 
+                    at: moment().format(), 
                 }
                 console.log(memo);
                 memoRef.push(memo);
