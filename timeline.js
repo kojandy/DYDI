@@ -239,6 +239,7 @@ $(() => {
                 moment: moment(notis[id].at),
             });
         }
+        con = con.filter(noti => (noti.moment.diff(moment()) < 0));
         con.sort((a, b) => b.moment.diff(a.moment));
         for (let noti of con) {
             addNoti(noti.id, noti.moment, noti.body);
