@@ -1,6 +1,7 @@
 <head>    
     <script src="https://www.gstatic.com/firebasejs/4.10.1/firebase.js"></script>
     <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" crossorigin="anonymous">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" crossorigin="anonymous">
     <style>
         body{
@@ -36,7 +37,9 @@
             width: 400;
             background-color: #555;
             color: #fff;
+            /*
             text-align: left;
+            */
             line-height: 160%;
             border-radius: 6px;
             padding: 8px;
@@ -44,7 +47,7 @@
             z-index: 1;
             top: 100%;
             left: 50%;
-            margin-left: -200;
+            margin-left: -212;
         }
         .popup .popuptext::after {
             content: "";
@@ -124,9 +127,10 @@
                 let arr = Object.values(notis);
                 for(let i = 0; i < arr.length; i++){
                     console.log(arr[i]);
-                    text += `<strong>${arr[i].body}</strong> -<i>${arr[i].at}</i></br>`;
+                    text += `<div class="float-left"> <strong>${arr[i].body}</strong></div>
+                    <div class="float-right"> -<i>${arr[i].at}</i></div> </br>`;
                 }
-                text += `<form id="input"><input type="text" id="textform"> </input> <input type="submit" value="new memo"></input></form>`;
+                text += `<div class= "float-left"><form id="input"><input type="text" id="textform" style="width:240px"></input></div> <div class= "float-right"><input type="submit" value="Add Memo" style="width:140px"></input></div></form>`;
                 $('#messages').html(text);
                 
             }
