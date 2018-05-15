@@ -1,6 +1,8 @@
 <head>    
     <script src="https://www.gstatic.com/firebasejs/4.10.1/firebase.js"></script>
     <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <script src='lib/moment.min.js'></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" crossorigin="anonymous">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" crossorigin="anonymous">
     <style>
         body{
@@ -11,7 +13,6 @@
             border-radius: 25px;
             background : rgb(233, 253, 217);
             border: 2px solid #73AD21;
-            padding: 20px; 
             width: 200px;
             height: 150px; 
         }
@@ -19,11 +20,9 @@
             border-radius: 25px;
             background : rgb(253, 245, 217);
             border: 2px solid rgb(255, 196, 0);
-            padding: 20px; 
             width: 200px;
             height: 150px; 
         }
-
         
         .popup {
             position: relative;
@@ -34,22 +33,23 @@
             -ms-user-select: none;
             user-select: none;
         }
-
         .popup .popuptext {
             visibility: hidden;
-            width: max-content;
+            width: 400;
             background-color: #555;
             color: #fff;
+            /*
             text-align: left;
+            */
+            line-height: 160%;
             border-radius: 6px;
             padding: 8px;
             position: absolute;
             z-index: 1;
-            bottom: 125%;
+            top: 100%;
             left: 50%;
-            margin-left: max-content/2;
+            margin-left: -212;
         }
-
         .popup .popuptext::after {
             content: "";
             position: absolute;
@@ -60,18 +60,15 @@
             border-style: solid;
             border-color: #555 transparent transparent transparent;
         }
-
         .popup .show {
             visibility: visible;
-            -webkit-animation: fadeIn 1s;
-            animation: fadeIn 1s;
+            -webkit-animation: fadeIn 0.5s;
+            animation: fadeIn 0.5s;
         }
-
         @-webkit-keyframes fadeIn {
             from {opacity: 0;} 
             to {opacity: 1;}
         }
-
         @keyframes fadeIn {
             from {opacity: 0;}
             to {opacity:1 ;}
@@ -79,23 +76,18 @@
     </style>
     
     <script>
-        $(() => {
+        {
             let config = {
                 apiKey: "AIzaSyAn9cS4J2VMItPAG7DFDqRfgZfknrVjhQ8",
                 databaseURL: "https://dydi-82330.firebaseio.com/",
             };
-
             firebase.initializeApp(config);
-
             let shiftCurr = 0;
             let shiftNext = 1;
             let dayCurr = 0;
-
             let database = firebase.database();
             let shiftRef = database.ref('shift');
             let memoRef = database.ref('noti'); //<-수정해야함
-
-
             shiftRef.on('value', function (snapshot){
                 console.log(snapshot.val());
                 makeTables(snapshot.val());
@@ -107,14 +99,13 @@
             function makeTables(shifts){
                 let htmlGreen = makeText(Object.values(shifts)[0], dayCurr);
                 let htmlOrange = makeText(Object.values(shifts)[1], dayCurr);
-
                 $('.roundBoxGreen').html(htmlGreen);
                 $('.roundBoxOrange').html(htmlOrange);
             }
             //console.log("asdf");
             function makeText(shift, day){
-                let text = `<div style="text-align: center"><strong>${Object.values(shift)[2]}:00 ~ ${Object.values(shift)[0]}:00
-                    </strong></div><ul type="disc" style="line-height: 1.1em">`;
+                let text = `<div style="text-align: center"><h3>${Object.values(shift)[2]}:00 ~ ${Object.values(shift)[0]}:00
+                    </h3></div><ul type="disc" style="line-height: 1.1em">`;
                 //console.log(Object.values(Object.values(shift)[1]));
                 //console.log(Object.values(Object.values(shift)[1]).length);
                 //console.log(Object.values(Object.values(shift)[1])[0]);
@@ -137,9 +128,10 @@
                 let arr = Object.values(notis);
                 for(let i = 0; i < arr.length; i++){
                     console.log(arr[i]);
-                    text += `<strong>${arr[i].body}</strong> -<i>${arr[i].at}</i></br>`;
+                    text += `<div class="float-left"> <strong>${arr[i].body}</strong></div>
+                    <div class="float-right"> -<i>${arr[i].at}</i></div> </br>`;
                 }
-                text += `<form id="input"><input type="text" id="textform"> </input> <input type="submit" value="new memo"></input></form>`;
+                text += `<div class= "float-left"><form id="input"><input type="text" id="textform" style="width:240px"></input></div> <div class= "float-right"><input type="submit" value="Add Memo" style="width:140px" onclick="inputM();"></input></div></form>`;
                 $('#messages').html(text);
                 
             }
@@ -150,10 +142,17 @@
                     at: new Date(), 
                 }
                 console.log(memo);
-                //memoRef.push(memo);
+                memoRef.push(memo);
             })
-        })
-
+            function inputM(){
+                let memo = {
+                    body: $('#textform').val(), 
+                    at: moment().format("YYYY-MM-DD[T]HH:MM"), 
+                }
+                console.log(memo);
+                memoRef.push(memo);
+            }
+        }
     </script>
     <script>
             function popupM(){
