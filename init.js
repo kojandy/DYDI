@@ -33,8 +33,8 @@ $(document).ready(function() {
       },
       shift: {
         shift0: {
-          start: 16,
-          end: 19,
+          start: "16:00",
+          end: "19:00",
           members: {
             day0: {
               member0: "Shihwan Kim",
@@ -51,8 +51,8 @@ $(document).ready(function() {
           },
         },
         shift1: {
-          start: 19,
-          end: 22,
+          start: "19:00",
+          end: "22:00",
           members: {
             day0: {
               member0: "Hyogeun Han",
