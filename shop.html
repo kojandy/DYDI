@@ -1,7 +1,7 @@
 
 <!DOCTYPE html>
 <html>
-<head>
+<head>    
     <script src="https://www.gstatic.com/firebasejs/4.10.1/firebase.js"></script>
     <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" crossorigin="anonymous">
@@ -47,9 +47,9 @@
             width: 60px;
         }
     </style>
-
+    
     <script>
-        $(() => {
+        {
             let config = {
                 apiKey: "AIzaSyAn9cS4J2VMItPAG7DFDqRfgZfknrVjhQ8",
                 databaseURL: "https://dydi-82330.firebaseio.com/",
@@ -86,7 +86,31 @@
                 console.log(shift);
                 return `<td>${shift.member0}<br>${shift.member1}</td>`;
             }
-        })
+
+            function addRow(){
+                let shift = {
+                    
+                    start: $('#formStart').val(), 
+                    end: $('#formEnd').val(), 
+                    
+                    members:{
+                        
+                        day0: {
+                            member0: "asdf",
+                            member1: "qweqq",
+                        },
+
+                        day1: {
+                            member0: "pohjpi",
+                            member1: "zxczv",
+                        }
+                        
+                    },
+                }
+                console.log(shift);
+                shiftRef.push(shift);
+            }
+        }
     </script>
 </head>
 <body>
@@ -109,9 +133,9 @@
     </table>
     <table>
       <tr>
-            <td class = "newShift left" ><i class="fas fa-plus-circle"></i> new shift </td>
-            <td></td>
-            <td></td>
+            <td class = "newShift left" ><p style="cursor:pointer" onclick="addRow()"><i class="fas fa-plus-circle"></i> new shift </p></td>
+            <td><input type="text" id="formStart" style="width: 20px"></td>
+            <td><input type="text" id="formEnd" style="width: 20px"></td>
             <td></td>
             <td></td>
             <td></td>
@@ -119,6 +143,6 @@
             <td></td>
         </tr>
     </table>
-
+  
 </body>
 </html>
