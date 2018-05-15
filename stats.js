@@ -6,6 +6,13 @@ $(document).ready(function() {
 
   let currentGroup = undefined;
 
+  function focusOnGroup(group) {
+    loadAndDraw(group);
+    new ResizeSensor($("#stats_nav_" + group), function() {
+      console.log('content dimension changed');
+    });
+  }
+
   let groupRef = database.ref("group");
   groupRef.on("value", function(snapshot) {
     $("#stats_nav_tab").empty();
@@ -34,7 +41,7 @@ $(document).ready(function() {
           `</a>`
         );
         $("#stats_nav_tabContent").append(
-          `<div class="tab-pane fade`
+          `<div class="tab-pane fade chart_pane`
           + (firstNav ? " show active" : "") +
           `" id="stats_nav_`
           + title +
@@ -46,7 +53,7 @@ $(document).ready(function() {
         if(firstNav)
         {
           currentGroup = title;
-          loadAndDraw(title);
+          focusOnGroup(currentGroup);
         }
 
         firstNav = false;
@@ -54,7 +61,7 @@ $(document).ready(function() {
         $("#stats_nav_tab a:last-of-type").click(function(events) {
           events.preventDefault();
 
-          loadAndDraw($(this).attr("group"));
+          focusOnGroup($(this).attr("group"));
 
           $(this).tab("show");
         });
@@ -64,7 +71,7 @@ $(document).ready(function() {
 
   let taskRef = database.ref("task");
   taskRef.on("value", function(snapshot) {
-    loadAndDraw(currentGroup);
+    focusOnGroup(currentGroup);
   });
 
   function loadAndDraw(group) {
