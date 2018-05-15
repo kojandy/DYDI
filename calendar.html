@@ -9,6 +9,8 @@
     <script src='lib/fullcalendar.min.js'></script>
     <script src="https://www.gstatic.com/firebasejs/4.10.1/firebase.js"></script>
     <link href="https://fonts.googleapis.com/css?family=Acme" rel="stylesheet">
+    <link rel="stylesheet" href="https://bootswatch.com/4/cosmo/bootstrap.min.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" crossorigin="anonymous">
     <script>
         $(document).ready(function() {
             var config = {
@@ -32,6 +34,7 @@
                 navLinks: true, // can click day/week names to navigate views
                 editable: true,
                 eventLimit: true, // allow "more" link when too many events
+                themeSystem: 'bootstrap4',
                 eventDrop: function (event, delta, revertFunc) {
                     var start = event.start.format().split(":")[0] + ":" + event.start.format().split(":")[1];
                     var end = event.end.format().split(":")[0] + ":" + event.end.format().split(":")[1];
