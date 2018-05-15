@@ -10,7 +10,7 @@ $(document).ready(function() {
 
     loadAndDraw(group);
 
-    var ro = new ResizeObserver( function(entries) {
+    var ro = new ResizeObserver(function(entries) {
       loadAndDraw(group);
     });
 
