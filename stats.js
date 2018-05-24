@@ -182,7 +182,7 @@ $(document).ready(function() {
           let selectedItem = chart.getSelection()[0];
           if (selectedItem) {
             let day = data.getValue(selectedItem.row, 0);
-            alert("The user selected " + day);
+            // alert("The user selected " + day);
           }
         }
 
