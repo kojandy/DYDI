@@ -52,4 +52,16 @@ $(() => {
             $elem.parent().removeClass('active');
         }
     });
+
+    function addGroup(name) {
+        $('#add_group').append($('<option>').attr('value', name).text(name));
+    }
+
+    database.ref('/group').on('value', (snapshot) => {
+        const groups = snapshot.val();
+        $('#add_group').empty();
+        for (const id in groups) {
+            addGroup(groups[id].title);
+        }
+    });
 });
