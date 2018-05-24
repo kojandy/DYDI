@@ -24,7 +24,6 @@
             width: 250px;
             height: 200px;
         }
-
         .popup {
             position: relative;
             display: inline-block;
@@ -77,11 +76,9 @@
             from {opacity: 0;}
             to {opacity:0.9;}
         }
-
         h1 {
             font-family: 'Francois One', sans-serif;
         }
-
         h3 {
             margin-top : 10px;
         }
@@ -109,8 +106,8 @@
                 makePopup(snapshot.val());
             })
             function makeTables(shifts){
-                let htmlGreen = makeText(Object.values(shifts)[0], dayCurr);
-                let htmlOrange = makeText(Object.values(shifts)[1], dayCurr);
+                let htmlGreen = makeText(shifts.shift0, dayCurr);
+                let htmlOrange = makeText(shifts.shift1, dayCurr);
                 $('.roundBoxGreen').html(htmlGreen);
                 $('.roundBoxOrange').html(htmlOrange);
             }
@@ -145,7 +142,6 @@
                 }
                 text += `<div class= "float-left"><form id="input"><input type="text" id="textform" style="width:290px"></input></div> <div class= "float-right"><input type="submit" value="Add" style="width:90px" onclick="inputM();"></input></div></form>`;
                 $('#messages').html(text);
-
             }
             function inputM(){
                 let memo = {
