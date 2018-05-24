@@ -62,10 +62,11 @@
                 makeTables(snapshot.val());
             })
             function makeTables(shifts){
+                let arr = Object.values(shifts).sort();
                 let text = ``;
                 //console.log(Object.values(shifts)[0].start);
-                for(let i = 0; i < Object.values(shifts).length; i++){
-                    shift = Object.values(shifts)[i];
+                for(let i = 0; i < arr.length; i++){
+                    shift = arr[i];
                     text += `
                     <tr><td class="left">${shift.start}<br>~${shift.end}</td>`;
                     for(let j = 0; j < 7; j++){
@@ -93,15 +94,23 @@
             }
             function addRow(){
                 let shift = {
-                    start: ""+$('#formStartH').val()+":"+$('#formStartM').val(),
-                    end: ""+$('#formEndH').val()+":"+$('#formEndM').val(),
+                    start: ""+makeTwoChar($('#formStartH').val())+":"+makeTwoChar($('#formStartM').val()),
+                    end: ""+makeTwoChar($('#formEndH').val())+":"+makeTwoChar($('#formEndM').val()),
                     members:{
                     },
                 }
                 //console.log(shift);
                 shiftRef.push(shift);
             }
-            function makeTwoChar(){
+            function makeTwoChar(chr){
+                newChr = "" + chr;
+                //console.log(newChr.length);
+                if(newChr.length == 1){
+                    return "0" + newChr;
+                }
+                else{
+                    return "" + newChr;
+                }
 
             }
         }
