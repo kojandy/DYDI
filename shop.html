@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html>
 <head>
@@ -92,19 +91,18 @@
                 //console.log(shift);
                 return `<td>${shift.member0}<br>${shift.member1}</td>`;
             }
-
             function addRow(){
                 let shift = {
-
                     start: ""+$('#formStartH').val()+":"+$('#formStartM').val(),
                     end: ""+$('#formEndH').val()+":"+$('#formEndM').val(),
-
                     members:{
-
                     },
                 }
                 //console.log(shift);
                 shiftRef.push(shift);
+            }
+            function makeTwoChar(){
+
             }
         }
     </script>
@@ -130,14 +128,16 @@
     <table>
       <tr>
             <td class = "newShift left" ><p style="cursor:pointer" onclick="addRow()"><i class="fas fa-plus-circle"></i> new shift </p></td>
-            <td>
-                <input type="number" min="0" max="23" id="formStartH" style="width: 40px">:
-                <input type="number" min="0" max="59" id="formStartM" style="width: 40px">
+            <td style = "text-align: center">
+                start <br>
+                <input value="00" type="number" min="0" max="23" id="formStartH" style="width: 40px"> :
+                <input value="00" type="number" min="0" max="59" id="formStartM" style="width: 40px">
             </td>
             <!-- 이 두줄은 바꿀것 -->
-            <td>
-                <input type="number" min="0" max="23" id="formEndH" style="width: 40px">:
-                <input type="number" min="0" max="59" id="formEndM" style="width: 40px">
+            <td style = "text-align: center">
+                end <br>
+                <input value="00" type="number" min="0" max="23" id="formEndH" style="width: 40px"> :
+                <input value="00" type="number" min="0" max="59" id="formEndM" style="width: 40px">
             </td>
             <td></td>
             <td></td>
