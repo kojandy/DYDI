@@ -1,7 +1,18 @@
 $(() => {
     const $modal = $("#modal_add_schedule");
     const $form = $('#add_form');
+    const $group = $('#add_group');
     const database = firebase.database();
+
+    $group.selectize({
+        create: true,
+        sortField: 'text',
+        valueField: 'name',
+        labelField: 'name',
+        searchField: 'name',
+    });
+
+    const selectize = $group[0].selectize;
 
     $form.on('submit', (e) => {
         e.preventDefault();
@@ -43,6 +54,17 @@ $(() => {
             });
         }
 
+        database.ref('/group').once('value', (snapshot) => {
+            const groups = snapshot.val();
+            const titles = [];
+            for (const id in groups) {
+                titles.push(groups[id].title);
+            }
+            if (!titles.includes(data.group)) {
+                database.ref('/group').push({title: data.group, tracked: true});
+            }
+        });
+
         $modal.modal('hide');
     });
     $('#add_reset').click(() => {
@@ -51,17 +73,15 @@ $(() => {
             $elem.prop('checked', false);
             $elem.parent().removeClass('active');
         }
+        selectize.clear();
     });
-
-    function addGroup(name) {
-        $('#add_group').append($('<option>').attr('value', name).text(name));
-    }
 
     database.ref('/group').on('value', (snapshot) => {
         const groups = snapshot.val();
-        $('#add_group').empty();
+        selectize.clearOptions();
         for (const id in groups) {
-            addGroup(groups[id].title);
+            selectize.addOption({name: groups[id].title});
         }
+        selectize.refreshOptions();
     });
 });
