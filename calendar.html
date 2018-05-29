@@ -7,11 +7,6 @@
     <script>
         $(document).ready(function () {
 
-            //var link = document.querySelector('link[rel="import"]');
-            //var content = link.import;
-            //var el = content.querySelector('.add_schedule');
-            //document.body.appendChild(el.cloneNode(true));
-
             var database = firebase.database();
             var taskRef = database.ref('task');
             var num = 0;
@@ -29,12 +24,12 @@
                 eventLimit: true, // allow "more" link when too many events
                 themeSystem: 'bootstrap4',
                 schedulerLicenseKey: 'CC-Attribution-NonCommercial-NoDerivatives',
-                //dayClick : function(date, allDay, jsEvent, view){
-                //    el.modal();
-                //},
-                //eventClick: function (calEvent, jsEvent, view) {
-                //    el.modal();
-                //},
+                dayClick : function(date, allDay, jsEvent, view){
+                    $('#modal_add_schedule').modal();
+                },
+                eventClick: function (calEvent, jsEvent, view) {
+                    $('#modal_add_schedule').modal();
+                },
                 eventMouseover: function (calEvent, jsEvent) {
                     var tooltip;
                     if (calEvent.status === "complete") {
