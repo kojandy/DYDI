@@ -1,7 +1,7 @@
 $(() => {
     let database = firebase.database();
     let $body = $('body');
-    let $calendar = $('#calendar');
+    let $calendar = $('#timeline_today');
     let $upcomingBody = $('#tl_upcoming');
     let $notiBody = $('#tab_noti');
     let $notiBadge = $('#noti_badge');
