@@ -25,9 +25,9 @@
                 themeSystem: 'bootstrap4',
                 schedulerLicenseKey: 'CC-Attribution-NonCommercial-NoDerivatives',
                 dayClick : function(date, allDay, jsEvent, view){
-                    $('#modal_add_schedule').modal();
-                },
-                eventClick: function (calEvent, jsEvent, view) {
+                    const val = date.format('YYYY-MM-DD');
+                    $('#add_start_date').val(val);
+                    $('#add_end_date').val(val);
                     $('#modal_add_schedule').modal();
                 },
                 eventMouseover: function (calEvent, jsEvent) {
