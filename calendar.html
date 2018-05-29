@@ -12,8 +12,16 @@
     <link rel="stylesheet" href="https://bootswatch.com/4/cosmo/bootstrap.min.css">
     <link href="https://fonts.googleapis.com/css?family=Francois+One" rel="stylesheet">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" crossorigin="anonymous">
+    <script src="addschedule.js"></script>
+    <link href="index.html" rel="import">
     <script>
-        $(document).ready(function() {
+        $(document).ready(function () {
+
+            //var link = document.querySelector('link[rel="import"]');
+            //var content = link.import;
+            //var el = content.querySelector('.add_schedule');
+            //document.body.appendChild(el.cloneNode(true));
+
             var config = {
                 apiKey:"AIzaSyAn9cS4J2VMItPAG7DFDqRfgZfknrVjhQ8",
                 databaseURL: "https://dydi-82330.firebaseio.com/",
@@ -36,6 +44,12 @@
                 editable: true,
                 eventLimit: true, // allow "more" link when too many events
                 themeSystem: 'bootstrap4',
+                //dayClick : function(date, allDay, jsEvent, view){
+                //    el.modal();
+                //},
+                //eventClick: function (calEvent, jsEvent, view) {
+                //    el.modal();
+                //},
                 eventMouseover: function (calEvent, jsEvent) {
                     var tooltip;
                     if (calEvent.status === "complete") {
@@ -46,6 +60,12 @@
                     }
                     else if (calEvent.status === 'notneeded') {
                         tooltip = '<div class="tooltipevent" style="width:130px;height:25px;background:#fff;border-radius: 7px;border: 1px solid #777777;position:absolute;z-index:10001;">' + '&nbsp;' + '&nbsp;' + 'Not needed task' + '</div>';
+                    }
+                    if (calEvent.drag === true) {
+                        this.style.cursor = 'move';
+                    }
+                    else if (calEvent.drag === false) {
+                        this.style.cursor = 'auto';
                     }
                     $("body").append(tooltip);
                     $(this).mouseover(function (e) {
@@ -188,6 +208,7 @@
                                         dow : [],
                                         allday: false,
                                         textColor: color,
+                                        drag : true,
                                         backgroundColor: backgroundcolor,
                                         borderColor: border,
                                         id: childSnapshot.key,
@@ -196,7 +217,7 @@
                                     $('#calendar').fullCalendar('renderEvent', event, true);
                         }
                         else {
-                            for (var i = moment(startdate) ; i.diff(moment(enddate)) < 0 ; i = i.add(1, 'days')) {
+                            for (var i = moment(startdate) ; i.diff(moment(enddate)) <= 0 ; i = i.add(1, 'days')) {
                                 if (find(i.format('d'),repeatlist)) {
                                     if (find(i.format('YYYY-MM-DD'), status)) {
                                         backgroundcolor = "rgb(63,159,91)";
@@ -223,6 +244,7 @@
                                         end: i.format('YYYY-MM-DD') + "T" + endtime,
                                         allday: false,
                                         textColor: color,
+                                        drag : false,
                                         backgroundColor: backgroundcolor,
                                         borderColor: border,
                                         editable: false,
@@ -290,7 +312,6 @@
     </style>
 </head>
 <body style="background-color:white;">
-
 
     <div id='calendar'></div>
 
