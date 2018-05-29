@@ -43,10 +43,10 @@
         #timeline_today {
             padding: 0;
         }
-        .fc-day-header {
+        #timeline_today .fc-day-header {
             display: none;
         }
-        .fc-event {
+        #timeline_today .fc-event {
             cursor: pointer;
         }
 
@@ -303,9 +303,7 @@
             });
             $('#a_tasks').click(() => {
                 setActive('#a_tasks');
-                $container.html(
-                    $('<object data="calendar.html" type="text/html" width=100% height=750px>')
-                );
+                $container.load('calendar.html');
             });
             $('#a_pets').click(() => {
                 setActive('#a_pets');
