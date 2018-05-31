@@ -116,9 +116,12 @@ $(() => {
     });
 
     database.ref('/pets').on('value', (snapshot) => {
+        const $list = $('#add_select_pets');
         const pets = snapshot.val();
+
+        $list.empty();
         for (const id in pets) {
-            $('#add_select_pets').append($('<option>').attr('value', id).text(pets[id].name))
+            $list.append($('<option>').attr('value', id).text(pets[id].name))
         }
     })
 });
