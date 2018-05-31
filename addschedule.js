@@ -2,6 +2,7 @@ $(() => {
     const $modal = $("#modal_add_schedule");
     const $form = $('#add_form');
     const $group = $('#add_group');
+    const $repeatCheck = $('#add_repeat');
     const database = firebase.database();
 
     $group.selectize({
@@ -67,6 +68,7 @@ $(() => {
 
         $modal.modal('hide');
     });
+
     $('#add_reset').click(() => {
         for (let i = 0; i < 7; ++i) {
             const $elem = $('#add_' + i);
@@ -74,6 +76,29 @@ $(() => {
             $elem.parent().removeClass('active');
         }
         selectize.clear();
+    });
+
+    $repeatCheck.click(() => {
+        const $collapse = $('#repeat_collapse');
+        const $collapseDate = $('#add_date');
+        const $startDate = $('#add_start_date');
+        const $endDate = $('#add_end_date');
+        if ($repeatCheck.prop('checked')) {
+            $collapse.collapse('show');
+            $collapseDate.collapse('hide');
+            $startDate.val(moment().format('YYYY-MM-DD'));
+            $endDate.val('2999-12-31');
+        } else {
+            $startDate.val('');
+            $endDate.val('');
+            $collapse.collapse('hide');
+            $collapseDate.collapse('show');
+            for (let i = 0; i < 7; ++i) {
+                const $elem = $('#add_' + i);
+                $elem.prop('checked', false);
+                $elem.parent().removeClass('active');
+            }
+        }
     });
 
     database.ref('/group').on('value', (snapshot) => {
