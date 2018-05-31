@@ -107,6 +107,13 @@
                 if(snapshot.exists()){
                     makeMemoTable(snapshot.val());
                 }
+                else{
+                    $("#memoTable").html(`
+                        <div style = "text-align: center; color: RGB(170,170,170); font-style: italic">
+                        There are no memo remained. Add new one!
+                        </div>
+                        `);
+                }
             })
             function makeTables(shifts){
                 let htmlGreen = makeText(shifts.shift0, dayCurr);
@@ -254,7 +261,7 @@
 
         }
         init();
-        
+
             document.getElementById("textform").addEventListener("keypress", function(event){
                 if(event.keyCode == 13){
                     event.preventDefault();
