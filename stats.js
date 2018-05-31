@@ -161,7 +161,7 @@ $(document).ready(function() {
 
         // Set chart options
         let options = {
-          title: group + " (Past 7 days)",
+          title: "# of " + group + " (in past 7 days)",
           isStacked: true,
           vAxis: {
             ticks: tickMarks,
