@@ -182,6 +182,7 @@
 </head>
 <body>
   <h1 style="margin-top : 35px; margin-bottom : 20px; text-align: left"> Timetable </h1>
+
   <table>
       <tr>
           <td>
@@ -202,6 +203,7 @@
           </td>
       </tr>
     </table>
+    <div id="clock">asdasdasdads</div>
     <h1 style="margin-top : 35px; margin-bottom : 20px; text-align: left"> Memo </h1>
     <div>
         <div class= "float-left">
@@ -214,6 +216,25 @@
     <table id="memoTable">
     </table>
 
+    <script type="text/javascript">
+        function init() {
+            var target = document.getElementById('clock');
+            target.innerHTML = new Date();
+            // Window 객체는 생략이 가능하다.
 
+            no = setInterval(setTime, 10000);                // 가능
+            setInterval("setTime()", 10000);          // 가능
+        }
 
+        function setTime() {
+            var target = document.getElementById('clock');
+            var date = new Date();
+            target.innerHTML = date.getFullYear() + '-' + (date.getMonth() + 1) + '-' + date.getDate() + ' ' + date.getHours() + ':' +date.getMinutes()
+            ///target.innerHTML = date.toLocaleString();
+            //console.log("tick");
+
+        }
+        init();
+
+    </script>
 </body>
