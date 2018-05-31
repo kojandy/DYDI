@@ -12,7 +12,6 @@ $(() => {
         numobj = snapshot.numChildren();
     })
 
-
     $form.on('submit', (e) => {
         e.preventDefault();
         const data = {};
@@ -26,16 +25,15 @@ $(() => {
             if (sel.options[i].selected == true) {
                 val = sel.options[i].value;
                 del_list.push(val);
-                console.log(val);
             }
         }
-
+        $("#field").empty();
+        $("#delete").empty();
         petsRef.on('value', function(snapshot) {
             snapshot.forEach(function (childSnapshot) {
                 for (i = 0; i < del_list.length; i++) {
                     if (childSnapshot.val().name == del_list[i]) {
                         petsRef.child(childSnapshot.key).remove();
-                        window.location.reload();
                     }
                 }
             })

@@ -13,6 +13,7 @@
     })
 
     $form.on('submit', (e) => {
+        $("#field").empty();
         e.preventDefault();
         const data = {};
         var gender = "male";
@@ -39,7 +40,7 @@
                 url: url,
             }
             petsRef.child("pet" + numobj + "").set(newObject);
-            window.location.reload();
+            //window.location.reload();
         }
 
         $modal.modal('hide');
