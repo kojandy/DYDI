@@ -4,21 +4,21 @@ $(document).ready(function() {
   // Firebase Database setup
   const database = firebase.database();
 
+  let currentGroup = undefined;
+
   function focusOnGroup(group) {
     if(group === undefined)
       return;
 
     loadAndDraw(group);
 
-    var ro = new ResizeObserver(function(entries) {
+    let ro = new ResizeObserver(function(entries) {
       loadAndDraw(group);
     });
 
     // Observe one or multiple elements
     ro.observe($("#stats_nav_" + group)[0]);
   }
-
-  let currentGroup = undefined;
 
   let groupRef = database.ref("group");
   groupRef.on("value", function(snapshot) {
@@ -87,6 +87,9 @@ $(document).ready(function() {
       return;
 
     const chartDiv = $("#stats_nav_" + group);
+    if(!chartDiv.hasClass("active"))
+      return;
+
     const defaultTickCount = 15;
     const completeColor = "green";
     const notneededColor = "grey";
