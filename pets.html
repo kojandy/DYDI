@@ -48,8 +48,8 @@
     </style>
 
 </head>
-<body>
-    <span class="h11" style='margin-top : 20px; margin-left : 20px;'> Pet selection </span>
+<body style="margin-top : 20px;">
+    <span class="h11" style='margin-top : 20px; margin-left : 20px;'> Pets </span>
     <div class="body" style='margin-top : 20px; margin-left : 40px;'>
         <div class="body" style='display:inline;' id="field">
 
@@ -64,61 +64,18 @@
         firebase.initializeApp(config);
         var database = firebase.database();
         var petsRef = database.ref('pets');
-        petsRef.set({
-                pet0: {
-                    url: "./images/cat1.jpeg",
-                    name: "Momo",
-                    gender: "male",
-                    age: "1 years old",
-                },
-                pet1: {
-                    url: "./images/cat6.jpg",
-                    name: "Jandy",
-                    gender: "female",
-                    age: "6 years old",
-                },
-                pet2: {
-                    url: "./images/cat3.jpg",
-                    name: "Soju",
-                    gender: "female",
-                    age: "3 years old",
-                },
-                pet3: {
-                    url: "./images/cat4.jpg",
-                    name: "Papa",
-                    gender: "male",
-                    age: "3 years old",
-                },
-                pet4: {
-                    url: "./images/cat5.jpg",
-                    name: "Baba",
-                    gender: "female",
-                    age: "2 years old",
-                },
-                pet5: {
-                    url: "./images/cat7.jpg",
-                    name: "Sasa",
-                    gender: "female",
-                    age: "5 years old",
-                },
-                pet6: {
-                    url: "./images/cat2.jpg",
-                    name: "Hoho",
-                    gender: "female",
-                    age: "1 years old",
-                },
-        });
         petsRef.on('value', function(snapshot) {
             snapshot.forEach(function(childSnapshot) {
                 var div = document.createElement('div');
                 div.style.setProperty("float", "left");
-                div.style.setProperty("margin-right", "10px");
+                div.style.setProperty("margin-right", "15px");
+                div.style.setProperty("margin-bottom", "35px")
                 var div2 = document.createElement('div');
                 var img = document.createElement('img');
                 img.src = childSnapshot.val().url;
                 img.style.setProperty("border-radius", "15px");
-                img.style.setProperty("width", "150px");
-                img.style.setProperty("height", "150px");
+                img.style.setProperty("width", "100px");
+                img.style.setProperty("height", "100px");
                 var h4 = document.createElement('h4');
                 var name = document.createTextNode(childSnapshot.val().name);
                 h4.style.setProperty("text-align", "center");
