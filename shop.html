@@ -83,7 +83,7 @@
                 for(let i = 0; i < arr.length; i++){
                     shift = arr[i];
                     text += `
-                    <tr><td class="left">${shift.start}<br>~${shift.end}</td>`;
+                    <tr><td class="left" id = "button${i}">${shift.start}<br>~${shift.end}</td>`;
                     for(let j = 0; j < 7; j++){
                         //console.log(shift.members);
                         if(!(shift.members === undefined)){
@@ -102,8 +102,9 @@
                 }
                 $('.contents').html(text);
                 for(let i = 0; i < arr.length; i++){
-                    document.getElementById("" + i).addEventListener("click", function(){
+                    document.getElementById("button" + i).addEventListener("click", function(){
                         for(let j = 0; j < 7; j++){
+                            //document.getElementById("name" + i + "1").
                             console.log("ping");
                         }
                     })
