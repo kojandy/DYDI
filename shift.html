@@ -104,7 +104,7 @@
             memoRef.on('value', function(snapshot){
                 //console.log(snapshot.val());
                 //makePopup(snapshot.val());
-                if(snapshot != null){
+                if(snapshot.exists()){
                     makeMemoTable(snapshot.val());
                 }
             })
@@ -158,18 +158,31 @@
                     //console.log(memo);
                     memoRef.push(memo);
                 }
+                document.getElementById("textform").value = "";
             }
 
             function makeMemoTable(memos){
                 let text = ``;
                 let arr = Object.values(memos);
-                arr.sort();
+                arr.sort(comparison);
+                //console.log(arr);
                 for (let i = 0; i < arr.length; i++){
-                    text += `<tr><td class="float-left"> <strong>${arr[i].body}</strong></td>
+                    text += `<tr ><td class="float-left"> <strong>${arr[i].body}</strong></td>
                     <td class="float-right"> <i>${moment(arr[i].at).format("MM-DD HH:mm")}</i></td></tr> <br>`;
 
                 }
                 $('#memoTable').html(text);
+            }
+            function comparison(memo1, memo2){
+                if(moment(memo1.at).isBefore(memo2.at)){
+                    return 1;
+                }
+                else if(moment(memo1.at).isAfter(memo2.at)){
+                    return -1;
+                }
+                else{
+                    return 0;
+                }
             }
         }
     </script>
@@ -203,13 +216,13 @@
           </td>
       </tr>
     </table>
-    <div id="clock">asdasdasdads</div>
+    <div id="clock">jump!jump!</div>
     <h1 style="margin-top : 35px; margin-bottom : 20px; text-align: left"> Memo </h1>
     <div>
-        <div class= "float-left">
-            <input type="text" id="textform" style="width:510px"></input>
-        </div> 
-        <div class= "float-right">
+        <!--div class= "float-left"-->
+        <div>
+            <input type="text" id="textform" style="width:505px"></input>
+        <!--div class= "float-right"-->
             <input type="submit" value="Add" style="width:90px" onclick="inputM();"></input>
         </div>
     </div>
@@ -219,22 +232,36 @@
     <script type="text/javascript">
         function init() {
             var target = document.getElementById('clock');
-            target.innerHTML = new Date();
+            // target.innerHTML = new Date();
             // Window 객체는 생략이 가능하다.
 
-            no = setInterval(setTime, 10000);                // 가능
-            setInterval("setTime()", 10000);          // 가능
+            no = setInterval(setTime, 1000);                // 가능
+            setInterval("setTime()", 1000);          // 가능
         }
 
         function setTime() {
             var target = document.getElementById('clock');
             var date = new Date();
-            target.innerHTML = date.getFullYear() + '-' + (date.getMonth() + 1) + '-' + date.getDate() + ' ' + date.getHours() + ':' +date.getMinutes()
+            //target.innerHTML = date.getFullYear() + '-' + (date.getMonth() + 1) + '-' + date.getDate() + ' ' + date.getHours() + ':' +date.getMinutes()
             ///target.innerHTML = date.toLocaleString();
+            if(date.getSeconds()%2 == 0){
+                target.innerHTML = moment().format("YYYY-MM-DD HH:mm");
+            }
+            else{
+                target.innerHTML = moment().format("YYYY-MM-DD HH mm");
+            }
             //console.log("tick");
 
         }
         init();
+        
+            document.getElementById("textform").addEventListener("keypress", function(event){
+                if(event.keyCode == 13){
+                    event.preventDefault();
+                    inputM();
+                }
+
+            });
 
     </script>
 </body>
