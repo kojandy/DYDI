@@ -11,6 +11,7 @@
     <link href="https://fonts.googleapis.com/css?family=Acme" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Francois+One" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Noto+Sans" rel="stylesheet">
+    <script src="https://www.gstatic.com/firebasejs/4.10.1/firebase.js"></script>
 
     <style>
         .common {
@@ -25,16 +26,16 @@
         }
 
         h4 {
-            margin-top : 5px;
+            margin-top: 5px;
             margin-left: 10px;
             margin-bottom: 3px;
             font-family: 'Noto Sans', sans-serif;
-            font-size : 20px;
+            font-size: 20px;
         }
 
         cite {
             font-family: 'Noto Sans', sans-serif;
-            font-size : 12px;
+            font-size: 12px;
         }
 
         .cat {
@@ -49,101 +50,102 @@
 </head>
 <body>
     <span class="h11" style='margin-top : 20px; margin-left : 20px;'> Pet selection </span>
-    <div  class="body" style = 'margin-top : 20px; margin-left : 40px;'>
-        <div class="body" style='display:inline;'>
-            <div class="container common">
-                <div class="row">
-                                    <img src="./images/cat1.jpeg" style="border-radius:15px;" width="100" height="100" alt="" class="img-rounded img-responsive" />
-                                </div>
-                                <h4>
-                                    Momo
-                                </h4>
-                                <cite class="cat" title="San Francisco, USA">
-                                    1 years old, <i class="fas fa-male"></i>
-                                </cite>
-                                <!-- Split button -->
-            </div>
+    <div class="body" style='margin-top : 20px; margin-left : 40px;'>
+        <div class="body" style='display:inline;' id="field">
 
-            <div class="container common">
-                <div class="row">
-                                    <img src="./images/cat2.jpg" style="border-radius:15px;" width="100" height="100" alt="" class="img-rounded img-responsive" />
-                                </div>
-                                <h4>
-                                    Jandy
-                                </h4>
-                                    <cite class="cat" title="San Francisco, USA">
-                                        6 years old, <i class="fas fa-female"></i>
-                                    </cite>
-                                <!-- Split button -->
-            </div>
-
-        <div class="container common">
-            <div class="row">
-                                <img src="./images/cat3.jpg" style="border-radius:15px;" width="100" height="100" alt="" class="img-rounded img-responsive" />
-                            </div>
-                                <h4>
-                                    Soju
-                                </h4>
-                                    <cite class="cat" title="San Francisco, USA">
-                                        3 years old, <i class="fas fa-female"></i>
-                                    </cite>
-                                <!-- Split button -->
-        </div>
-
-        <div class="container common">
-            <div class="row">
-                                <img src="./images/cat4.jpg" style="border-radius:15px;" width="100" height="100" alt="" class="img-rounded img-responsive" />
-                            </div>
-                                <h4>
-                                    Papa
-                                </h4>
-                                    <cite class="cat" title="San Francisco, USA">
-                                        3 years old, <i class="fas fa-male"></i>
-                                    </cite>
-                                <!-- Split button -->
-        </div>
-
-        <div class="container common">
-            <div class="row">
-                                <img src="./images/cat5.jpg" style="border-radius:15px;" width="100" height="100" alt="" class="img-rounded img-responsive" />
-                            </div>
-                                <h4>
-                                    Baba
-                                </h4>
-                                    <cite class="cat" title="San Francisco, USA">
-                                        3 years old, <i class="fas fa-female"></i>
-                                    </cite>
-                                <!-- Split button -->
-        </div>
-
-        <div class="container common">
-            <div class="row">
-                                <img src="./images/cat6.jpg" style="border-radius:15px;" width="100" height="100" alt="" class="img-rounded img-responsive" />
-                            </div>
-                                <h4>
-                                    Sasa
-                                </h4>
-                                    <cite class="cat" title="San Francisco, USA">
-                                        5 years old, <i class="fas fa-female"></i>
-                                    </cite>
-                                <!-- Split button -->
-        </div>
-
-        <div class="container common">
-            <div class="row">
-                                <img src="./images/cat7.jpg" style="border-radius:15px;" width="100" height="100" alt="" class="img-rounded img-responsive" />
-                            </div>
-                                <h4>
-                                    Hoho
-                                </h4>
-                                    <cite class="cat" title="San Francisco, USA">
-                                        1 years old, <i class="fas fa-female"></i>
-                                    </cite>
-                                <!-- Split button -->
         </div>
     </div>
-        </div>
 
-
+    <script>
+        const config = {
+            apiKey: "AIzaSyAn9cS4J2VMItPAG7DFDqRfgZfknrVjhQ8",
+            databaseURL: "https://dydi-82330.firebaseio.com/",
+        };
+        firebase.initializeApp(config);
+        var database = firebase.database();
+        var petsRef = database.ref('pets');
+        petsRef.set({
+                pet0: {
+                    url: "./images/cat1.jpeg",
+                    name: "Momo",
+                    gender: "male",
+                    age: "1 years old",
+                },
+                pet1: {
+                    url: "./images/cat6.jpg",
+                    name: "Jandy",
+                    gender: "female",
+                    age: "6 years old",
+                },
+                pet2: {
+                    url: "./images/cat3.jpg",
+                    name: "Soju",
+                    gender: "female",
+                    age: "3 years old",
+                },
+                pet3: {
+                    url: "./images/cat4.jpg",
+                    name: "Papa",
+                    gender: "male",
+                    age: "3 years old",
+                },
+                pet4: {
+                    url: "./images/cat5.jpg",
+                    name: "Baba",
+                    gender: "female",
+                    age: "2 years old",
+                },
+                pet5: {
+                    url: "./images/cat7.jpg",
+                    name: "Sasa",
+                    gender: "female",
+                    age: "5 years old",
+                },
+                pet6: {
+                    url: "./images/cat2.jpg",
+                    name: "Hoho",
+                    gender: "female",
+                    age: "1 years old",
+                },
+        });
+        petsRef.on('value', function(snapshot) {
+            snapshot.forEach(function(childSnapshot) {
+                var div = document.createElement('div');
+                div.style.setProperty("float", "left");
+                div.style.setProperty("margin-right", "10px");
+                var div2 = document.createElement('div');
+                var img = document.createElement('img');
+                img.src = childSnapshot.val().url;
+                img.style.setProperty("border-radius", "15px");
+                img.style.setProperty("width", "150px");
+                img.style.setProperty("height", "150px");
+                var h4 = document.createElement('h4');
+                var name = document.createTextNode(childSnapshot.val().name);
+                h4.style.setProperty("text-align", "center");
+                var div3 = document.createElement('div');
+                var age = document.createTextNode(childSnapshot.val().age);
+                div3.style.setProperty("text-align", "center");
+                if (childSnapshot.val().gender == "male"){
+                    var gender_icon = document.createElement("i");
+                    gender_icon.setAttribute ('class', "fas fa-male");
+                    gender_icon.style.color = "skyblue";
+                    gender_icon.style.setProperty("margin-left", "5px");
+                }
+                else if (childSnapshot.val().gender == "female"){
+                    var gender_icon = document.createElement("i");
+                    gender_icon.setAttribute ('class', "fas fa-male");
+                    gender_icon.style.color = "pink";
+                    gender_icon.style.setProperty("margin-left", "5px");
+                }
+                div.appendChild(div2);
+                div2.appendChild(img);
+                div2.appendChild(h4);
+                h4.append(name);
+                div2.appendChild(div3);
+                div3.appendChild(age);
+                div3.appendChild(gender_icon);
+                document.getElementById("field").appendChild(div);
+            })})
+    </script>
 </body>
 </html>

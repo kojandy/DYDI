@@ -149,6 +149,50 @@ $(document).ready(function() {
           recurring: false,
         },
       },
+      pets: {
+          pet0: {
+              url : "./images/cat1.jpeg",
+              name : "Momo",
+              gender : "male",
+              age : "1 years old",
+          },
+          pet1: {
+              url : "./images/cat6.jpg",
+              name : "Jandy",
+              gender : "female",
+              age : "6 years old",
+          },
+          pet2: {
+              url : "./images/cat3.jpg",
+              name : "Soju",
+              gender : "female",
+              age : "3 years old",
+          },
+          pet3: {
+              url : "./images/cat4.jpg",
+              name : "Papa",
+              gender : "male",
+              age : "3 years old",
+          },
+          pet4: {
+              url : "./images/cat5.jpg",
+              name : "Baba",
+              gender : "female",
+              age : "2 years old",
+          },
+          pet5: {
+              url : "./images/cat7.jpg",
+              name : "Sasa",
+              gender : "female",
+              age : "5 years old",
+          },
+          pet6: {
+              url : "./images/cat2.jpg",
+              name : "Hoho",
+              gender : "female",
+              age : "1 years old",
+          },
+      }
     });
   }
 
