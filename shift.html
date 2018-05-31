@@ -103,7 +103,10 @@
             })
             memoRef.on('value', function(snapshot){
                 //console.log(snapshot.val());
-                makePopup(snapshot.val());
+                //makePopup(snapshot.val());
+                if(snapshot != null){
+                    makeMemoTable(snapshot.val());
+                }
             })
             function makeTables(shifts){
                 let htmlGreen = makeText(shifts.shift0, dayCurr);
@@ -131,6 +134,7 @@
                 text += `</ul>`;
                 return text;
             }
+            /* legacy code:: popup
             function makePopup(notis){
                 //console.log("popup changed");
                 let text = ``;
@@ -143,13 +147,29 @@
                 text += `<div class= "float-left"><form id="input"><input type="text" id="textform" style="width:290px"></input></div> <div class= "float-right"><input type="submit" value="Add" style="width:90px" onclick="inputM();"></input></div></form>`;
                 $('#messages').html(text);
             }
+            */
             function inputM(){
-                let memo = {
-                    body: $('#textform').val(),
-                    at: moment().format(),
+                let txt = $('#textform').val()
+                if(txt != ""){
+                    let memo = {
+                        body: txt,
+                        at: moment().format(),
+                    }
+                    //console.log(memo);
+                    memoRef.push(memo);
                 }
-                //console.log(memo);
-                memoRef.push(memo);
+            }
+
+            function makeMemoTable(memos){
+                let text = ``;
+                let arr = Object.values(memos);
+                arr.sort();
+                for (let i = 0; i < arr.length; i++){
+                    text += `<tr><td class="float-left"> <strong>${arr[i].body}</strong></td>
+                    <td class="float-right"> <i>${moment(arr[i].at).format("MM-DD HH:mm")}</i></td></tr> <br>`;
+
+                }
+                $('#memoTable').html(text);
             }
         }
     </script>
@@ -162,21 +182,38 @@
 </head>
 <body>
   <h1 style="margin-top : 35px; margin-bottom : 20px; text-align: left"> Timetable </h1>
-  <table >
+  <table>
       <tr>
           <td>
                 <div class="roundBoxGreen"> </div>
           </td>
+          <!--
           <td width="100px" style="text-align: center; margin-top : 40px; vertical-align: middle" class="popup" >
 
             <i class="fas fa-caret-right" style=" font-size:50px; margin-top : 15px; color:rgb(0, 145, 189)" onclick="popupM()"></i>
             <span class="popuptext" id="messages"></span>
           </td>
+          -->
+          <td width="100px" style="text-align: center;">
+            <i class="fas fa-caret-right" style=" font-size:50px; color:rgb(0, 145, 189)"></i>
+          </td>
           <td>
                 <div class="roundBoxOrange"> </div>
           </td>
       </tr>
-
     </table>
+    <h1 style="margin-top : 35px; margin-bottom : 20px; text-align: left"> Memo </h1>
+    <div>
+        <div class= "float-left">
+            <input type="text" id="textform" style="width:510px"></input>
+        </div> 
+        <div class= "float-right">
+            <input type="submit" value="Add" style="width:90px" onclick="inputM();"></input>
+        </div>
+    </div>
+    <table id="memoTable">
+    </table>
+
+
 
 </body>
