@@ -201,7 +201,10 @@
     </script>
 </head>
 <body>
-  <h1 style="margin-top : 35px; margin-bottom : 20px; text-align: left"> Timetable </h1>
+<div>
+  <h1 style="margin-top : 35px; margin-bottom : 20px; text-align: left; float: left"> Timetable </h1>
+    <div id="clock" style="float: right; margin-top: 57px">jump!jump!</div>
+    </div>
 
   <table>
       <tr>
@@ -223,7 +226,6 @@
           </td>
       </tr>
     </table>
-    <div id="clock">jump!jump!</div>
     <h1 style="margin-top : 35px; margin-bottom : 20px; text-align: left"> Memo </h1>
     <div>
         <!--div class= "float-left"-->
@@ -233,7 +235,7 @@
             <input type="submit" value="Add" style="width:90px" onclick="inputM();"></input>
         </div>
     </div>
-    <table id="memoTable">
+    <table id="memoTable" width="600px" style="line-height: 1.8">
     </table>
 
     <script type="text/javascript">
