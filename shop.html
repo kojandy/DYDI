@@ -51,6 +51,9 @@
             vertical-align: middle;
             width: 60px;
         }
+        .inputValue {
+            width: 114px;
+        }
     </style>
 
     <script>
@@ -98,6 +101,13 @@
                     text += `</tr>`
                 }
                 $('.contents').html(text);
+                for(let i = 0; i < arr.length; i++){
+                    document.getElementById("" + i).addEventListener("click", function(){
+                        for(let j = 0; j < 7; j++){
+                            console.log("ping");
+                        }
+                    })
+                }
             }
             function comparison(shift1, shift2){
                 //console.log(shift1);
@@ -137,10 +147,39 @@
                     start: ""+makeTwoChar($('#formStartH').val())+":"+makeTwoChar($('#formStartM').val()),
                     end: ""+makeTwoChar($('#formEndH').val())+":"+makeTwoChar($('#formEndM').val()),
                     members:{
+                        day0:{
+                            member0: ""+$('#name11').val(),
+                            member1: ""+$('#name12').val(),
+                        },
+                        day1:{
+                            member0: ""+$('#name21').val(),
+                            member1: ""+$('#name22').val(),
+                        },
+                        day2:{
+                            member0: ""+$('#name31').val(),
+                            member1: ""+$('#name32').val(),
+                        },
+                        day3:{
+                            member0: ""+$('#name41').val(),
+                            member1: ""+$('#name42').val(),
+                        },
+                        day4:{
+                            member0: ""+$('#name51').val(),
+                            member1: ""+$('#name52').val(),
+                        },
+                        day5:{
+                            member0: ""+$('#name61').val(),
+                            member1: ""+$('#name62').val(),
+                        },
+                        day6:{
+                            member0: ""+$('#name71').val(),
+                            member1: ""+$('#name72').val(),
+                        },
                     },
-                }
+                };
                 //console.log(shift);
                 shiftRef.push(shift);
+                toggleRow();
             }
             function makeTwoChar(chr){
                 newChr = "" + chr;
@@ -156,11 +195,11 @@
                 toggle = !toggle;
                 //console.log(document.getElementById("newShiftRow").style.cssText);
                 document.getElementById("newShiftRow").style.cssText = toggle?"visibility: visible;":"visibility: hidden;";
-                console.log(document.getElementById("toggleButton"));
+                //console.log(document.getElementById("toggleButton"));
                 document.getElementById("toggleButton").innerHTML = toggle?
                     
-                    `<i class="fas fa-minus-circle" ></i> hide menu `:
-                    `<i class="fas fa-plus-circle" ></i> new shift `;
+                    `<i class="fas fa-minus-square" ></i> hide menu `:
+                    `<i class="fas fa-plus-square" ></i> new shift `;
             }
         }
     </script>
@@ -168,7 +207,7 @@
 <body>
 <div style="margin-top: 35px">
   <h1 style="text-align: left; float: left;" > Shifts </h1>
-    <p style="cursor:pointer; float: right; margin-top: 19px" onclick="toggleRow()" id="toggleButton"><i class="fas fa-plus-circle" ></i> new shift </p>
+    <p style="cursor:pointer; float: right; margin-top: 19px" onclick="toggleRow()" id="toggleButton"><i class="fas fa-plus-square" ></i> new shift </p>
     </div>
     <br>
   <table class="shiftTable" style="margin-top: 35px">
@@ -211,17 +250,39 @@
         <tr style="text-align: right">
             <td><i class="fas fa-plus-circle" onclick="addRow()"></i>
                 <input value="00" type="number" min="0" max="23" id="formStartH" style="width: 40px"> :
-                <input value="00" type="number" min="0" max="59" id="formStartM" style="width: 40px"><br>~
+                <input value="00" type="number" min="0" max="59" id="formStartM" style="width: 40px"><br>
+                <i class="fas fa-minus-circle" onclick="toggleRow()"></i>
                 <input value="00" type="number" min="0" max="23" id="formEndH" style="width: 40px"> :
                 <input value="00" type="number" min="0" max="59" id="formEndM" style="width: 40px">
             </td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
+            <td>
+                <input value="" type="text" id="name11" class="inputValue"><br>
+                <input value="" type="text" id="name12" class="inputValue">
+            </td>
+            <td>
+                <input value="" type="text" id="name21" class="inputValue"><br>
+                <input value="" type="text" id="name22" class="inputValue">
+            </td>
+            <td>
+                <input value="" type="text" id="name31" class="inputValue"><br>
+                <input value="" type="text" id="name32" class="inputValue">
+            </td>
+            <td>
+                <input value="" type="text" id="name41" class="inputValue"><br>
+                <input value="" type="text" id="name42" class="inputValue">
+            </td>
+            <td>
+                <input value="" type="text" id="name51" class="inputValue"><br>
+                <input value="" type="text" id="name52" class="inputValue">
+            </td>
+            <td>
+                <input value="" type="text" id="name61" class="inputValue"><br>
+                <input value="" type="text" id="name62" class="inputValue">
+            </td>
+            <td>
+                <input value="" type="text" id="name71" class="inputValue"><br>
+                <input value="" type="text" id="name72" class="inputValue">
+            </td>
         </tr>
 
     </table>
