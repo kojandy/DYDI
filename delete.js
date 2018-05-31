@@ -29,7 +29,7 @@ $(() => {
         }
         $("#field").empty();
         $("#delete").empty();
-        petsRef.on('value', function(snapshot) {
+        petsRef.once('value', function(snapshot) {
             snapshot.forEach(function (childSnapshot) {
                 for (i = 0; i < del_list.length; i++) {
                     if (childSnapshot.val().name == del_list[i]) {

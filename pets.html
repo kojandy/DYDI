@@ -182,7 +182,8 @@
                 url : "./images/dog4.jpg"
             },
         })
-        petsRef.on('value', function(snapshot) {
+        petsRef.on('value', function (snapshot) {
+            $("#field").empty();
             snapshot.forEach(function(childSnapshot) {
                 var div = document.createElement('div');
                 div.style.setProperty("float", "left");
@@ -221,10 +222,7 @@
                 div3.appendChild(gender_icon);
                 document.getElementById("field").appendChild(div);
             })
-        })
-
-        petsRef.on('value', function(snapshot) {
-            snapshot.forEach(function(childSnapshot) {
+            snapshot.forEach(function (childSnapshot) {
                 var div = document.createElement('option');
                 var name = document.createTextNode(childSnapshot.val().name);
                 div.appendChild(name);
