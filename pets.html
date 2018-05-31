@@ -2,16 +2,22 @@
 <html>
 <head>
     <meta charset='utf-8' />
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.9.0/fullcalendar.min.js" integrity="sha256-QvhPq+evNjd8JyxSOU5KL3jPYTD7+gWVev1OH763SL0=" crossorigin="anonymous"></script>
-    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" crossorigin="anonymous">
     <script src="http://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
     <link href="https://use.fontawesome.com/releases/v5.0.8/css/all.css" rel="stylesheet">
     <link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet" />
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js" integrity="sha384-smHYKdLADwkXOn1EmN1qk/HfnUcbVRZyYmZ4qpPea6sjB/pTJ0euyQp0Mk8ck+5T" crossorigin="anonymous"></script>
+
+
     <link href="https://fonts.googleapis.com/css?family=Cabin" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Acme" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Francois+One" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Noto+Sans" rel="stylesheet">
     <script src="https://www.gstatic.com/firebasejs/4.10.1/firebase.js"></script>
+    <script src="addpet.js"></script>
+    <script src="delete.js"></script>
 
     <style>
         .common {
@@ -50,9 +56,106 @@
 </head>
 <body style="margin-top : 20px;">
     <span class="h11" style='margin-top : 20px; margin-left : 20px;'> Pets </span>
+    <button id="btn_add_schedule" class="navbar-toggler aside-menu-toggler">
+        <i class="fas fa-plus-circle"></i>
+    </button>
+    <button id="btn_delete_schedule" class="navbar-toggler aside-menu-toggler">
+        <i class="fas fa-minus-circle"></i>
+    </button>
     <div class="body" style='margin-top : 20px; margin-left : 40px;'>
         <div class="body" style='display:inline;' id="field">
+        </div>
+    </div>
 
+    <div class="modal fade" id="modal_add_schedule" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Add Pet</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form action="#" id="add_form">
+                    <div class="modal-body">
+                        <div class="container">
+                            <div class="form-group">
+                                <label for="add_title">Name</label>
+                                <input type="text" name="title" id="add_title" class="form-control" placeholder="Enter Title" required>
+                            </div>
+                            <article>
+                                <p id="status">Upload pet lmage</p>
+                                <p><input type=file></p>
+                                <div id="holder"></div>
+                            </article>
+
+                            <fieldset class="form-group">
+                                <div class="row">
+                                    <legend class="col-form-label col-sm-2 pt-0">Gender</legend>
+                                    <div class="col-sm-10">
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="radio" name="gridRadios" id="gridRadios1" value="option1" checked>
+                                            <label class="form-check-label" for="gridRadios1">
+                                                Male
+                                            </label>
+                                        </div>
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="radio" name="gridRadios" id="gridRadios2" value="option2">
+                                            <label class="form-check-label" for="gridRadios2">
+                                                Female
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </fieldset>
+                            <div class="form-group">
+                                <label for="add_title">Age</label>
+                                <input name="age" style="margin-right : 40px;" type="number" min="0">
+                            </div>
+                            <div class="form-group">
+                                <label for="add_noti">Characteristic</label>
+                                <textarea name="noti_body" id="add_noti" rows="3" class="form-control"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-primary" id="add_submit">Submit</button>
+                        <button type="reset" class="btn btn-danger" id="add_reset">Reset</button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="modal_delete_schedule" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Delete Pet</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form action="#" id="delete_form">
+                    <div class="modal-body">
+                        <div class="container">
+                            <div class="form-group">
+                                <label for="">Select to delete Pets</label>
+                                <select multiple name="" id="delete" class="form-control">
+
+                                </select>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-primary" id="add_submit">Submit</button>
+                        <button type="reset" class="btn btn-danger" id="add_reset">Reset</button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                    </div>
+                </form>
+            </div>
         </div>
     </div>
 
@@ -64,6 +167,21 @@
         firebase.initializeApp(config);
         var database = firebase.database();
         var petsRef = database.ref('pets');
+        var dummyRef = database.ref('dummy');
+        dummyRef.set({
+            dummy0: {
+                url : "./images/dog1.jpg"
+            },
+            dummy1: {
+                url : "./images/dog2.jpg"
+            },
+            dummy2: {
+                url : "./images/dog3.jpg"
+            },
+            dummy3: {
+                url : "./images/dog4.jpg"
+            },
+        })
         petsRef.on('value', function(snapshot) {
             snapshot.forEach(function(childSnapshot) {
                 var div = document.createElement('div');
@@ -102,7 +220,59 @@
                 div3.appendChild(age);
                 div3.appendChild(gender_icon);
                 document.getElementById("field").appendChild(div);
-            })})
+            })
+        })
+
+        petsRef.on('value', function(snapshot) {
+            snapshot.forEach(function(childSnapshot) {
+                var div = document.createElement('option');
+                var name = document.createTextNode(childSnapshot.val().name);
+                div.appendChild(name);
+                document.getElementById("delete").appendChild(div);
+            })
+        })
+
+        $(() => {
+            $('#btn_add_schedule').click(() => {
+                $('#modal_add_schedule').modal();
+            });
+             $('#btn_delete_schedule').click(() => {
+                $('#modal_delete_schedule').modal();
+             });
+        });
+    </script>
+
+    <script>
+        var upload = document.getElementsByTagName('input')[0],
+            holder = document.getElementById('holder'),
+            state = document.getElementById('status');
+
+        if (typeof window.FileReader === 'undefined') {
+          state.className = 'fail';
+        } else {
+          state.className = 'success';
+          state.innerHTML = 'Upload pet lmage';
+        }
+
+        //upload.onchange = function (e) {
+        //  e.preventDefault();
+
+        //  var file = upload.files[0],
+        //      reader = new FileReader();
+        //  reader.onload = function (event) {
+        //    var img = new Image();
+        //    img.src = event.target.result;
+        //    // note: no onload required since we've got the dataurl...I think! :)
+        //    if (img.width > 100) { // holder width
+        //      img.width = 100;
+        //    }
+        //    holder.innerHTML = '';
+        //    holder.appendChild(img);
+        //  };
+        //  reader.readAsDataURL(file);
+
+        //  return false;
+        //};
     </script>
 </body>
 </html>
