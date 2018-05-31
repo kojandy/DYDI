@@ -17,13 +17,17 @@ $(() => {
 
     $form.on('submit', (e) => {
         e.preventDefault();
-        const data = {};
+        const data = {pets: []};
 
         $.map($form.serializeArray(), (n, i) => {
-            if (data[n['name']] === undefined) {
-                data[n['name']] = '';
+            if (n['name'] === 'pets') {
+                data[n['name']].push(n['value']);
+            } else {
+                if (data[n['name']] === undefined) {
+                    data[n['name']] = '';
+                }
+                data[n['name']] += n['value'];
             }
-            data[n['name']] += n['value'];
         });
 
         const task = {
@@ -31,6 +35,7 @@ $(() => {
             start: data.start_date + 'T' + data.start_time,
             end: data.end_date + 'T' + data.end_time,
             group: data.group,
+            pets: data.pets,
             recurring: false,
         };
 
@@ -109,4 +114,11 @@ $(() => {
         }
         selectize.refreshOptions();
     });
+
+    database.ref('/pets').on('value', (snapshot) => {
+        const pets = snapshot.val();
+        for (const id in pets) {
+            $('#add_select_pets').append($('<option>').attr('value', id).text(pets[id].name))
+        }
+    })
 });
