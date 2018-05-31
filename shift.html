@@ -171,6 +171,8 @@
             function makeMemoTable(memos){
                 let text = ``;
                 let arr = Object.values(memos);
+                //console.log(arr);
+                //console.log(arr[0]);
                 arr.sort(comparison);
                 //console.log(arr);
                 for (let i = 0; i < arr.length; i++){
@@ -203,7 +205,7 @@
 <body>
 <div>
   <h1 style="margin-top : 35px; margin-bottom : 20px; text-align: left; float: left"> Timetable </h1>
-    <div id="clock" style="float: right; margin-top: 57px">jump!jump!</div>
+    <div id="clock" style="float: right; margin-top: 57px"></div>
     </div>
 
   <table>
