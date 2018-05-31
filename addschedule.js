@@ -81,6 +81,9 @@ $(() => {
             $elem.parent().removeClass('active');
         }
         selectize.clear();
+        $('#repeat_collapse').collapse('hide');
+        $('#add_date').collapse('show');
+        $modal.modal('hide');
     });
 
     $repeatCheck.click(() => {

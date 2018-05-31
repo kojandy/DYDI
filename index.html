@@ -252,8 +252,7 @@
                         </div>
                         <div class="modal-footer">
                             <button type="submit" class="btn btn-primary" id="add_submit">Submit</button>
-                            <button type="reset" class="btn btn-danger" id="add_reset">Reset</button>
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                            <button type="reset" class="btn btn-secondary" id="add_reset">Cancel</button>
                         </div>
                     </form>
                 </div>
@@ -306,6 +305,9 @@
             });
 
             $('#btn_add_schedule').click(() => {
+                $('#repeat_collapse').collapse('hide');
+                $('#add_date').collapse('show');
+                $('#add_form')[0].reset();
                 $('#modal_add_schedule').modal();
             });
         });
