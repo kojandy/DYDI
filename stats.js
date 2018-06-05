@@ -108,7 +108,7 @@ $(document).ready(function() {
       tasksRef.once("value", function(tasksSnapshot) {
 
         let baseValue = 1;
-        if(group == "Beauty")
+        if(group === "Beauty")
           baseValue = 0;
 
         let comCount = {
