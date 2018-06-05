@@ -24,6 +24,10 @@ $(() => {
             let date = event.start.format('Y-MM-DD');
 
             $modalTitle.text(event.title);
+            $modalBtnNN.unbind();
+            $modalBtnNY.unbind();
+            $modalBtnY.unbind();
+
             $modalBtnNN.click(() => {
                 database.ref('task/' + event.id + '/status/' + date).set(false);
             });
