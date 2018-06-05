@@ -106,23 +106,28 @@ $(document).ready(function() {
     function drawChart() {
       const tasksRef = database.ref("task").orderByChild("group").equalTo(group);
       tasksRef.once("value", function(tasksSnapshot) {
+
+        let baseValue = 1;
+        if(group == "Beauty")
+          baseValue = 0;
+
         let comCount = {
-          "Mon": 0,
-          "Tue": 0,
-          "Wed": 0,
-          "Thu": 0,
-          "Fri": 0,
-          "Sat": 0,
-          "Sun": 0,
+          "Mon": baseValue,
+          "Tue": baseValue,
+          "Wed": baseValue,
+          "Thu": baseValue,
+          "Fri": baseValue,
+          "Sat": baseValue,
+          "Sun": baseValue,
         };
         let notCount = {
-          "Mon": 0,
-          "Tue": 0,
-          "Wed": 0,
-          "Thu": 0,
-          "Fri": 0,
-          "Sat": 0,
-          "Sun": 0,
+          "Mon": baseValue,
+          "Tue": baseValue,
+          "Wed": baseValue,
+          "Thu": baseValue,
+          "Fri": baseValue,
+          "Sat": baseValue,
+          "Sun": baseValue,
         };
 
         tasksSnapshot.forEach(function(taskSnapshot) {
@@ -150,8 +155,8 @@ $(document).ready(function() {
         for(let i = 1; i <= 7; i++) {
           let day = moment().subtract(7 - i, "days").format("ddd");
           let day_full = moment().subtract(7 - i, "days").format("ddd (M/D)");
-          maxCount = Math.max(maxCount, comCount[day] + notCount[day] + 2 + 1);
-          data.addRow([day_full, comCount[day] + 1, notCount[day] + 1]);
+          maxCount = Math.max(maxCount, comCount[day] + notCount[day] + 1);
+          data.addRow([day_full, comCount[day], notCount[day]]);
         }
 
         let tickCount = Math.min(maxCount + 1, defaultTickCount);
