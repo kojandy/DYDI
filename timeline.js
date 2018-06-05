@@ -96,14 +96,20 @@ $(() => {
                     let date = start.format('Y-MM-DD');
 
                     $modalTitle.text(title);
+                    $modalBtnNN.unbind();
                     $modalBtnNN.click(() => {
                         database.ref('task/' + id + '/status/' + date).set(false);
+                        console.log(id);
                     });
+                    $modalBtnNY.unbind();
                     $modalBtnNY.click(() => {
                         database.ref('task/' + id + '/status/' + date).remove();
+                        console.log(id);
                     });
+                    $modalBtnY.unbind();
                     $modalBtnY.click(() => {
                         database.ref('task/' + id + '/status/' + date).set(true);
+                        console.log(id);
                     });
                     $('#modal').modal();
                 });
