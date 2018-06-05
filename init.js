@@ -72,8 +72,8 @@ $(document).ready(function() {
       task: {
         task0: {
           title: "Feed all pets",
-          start: "2018-04-25T14:00",
-          end: "2018-04-27T14:00",
+          start: "2018-06-25T14:00",
+          end: "2018-06-27T14:00",
           group: "Feed",
           recurring: false,
           status: {
@@ -82,8 +82,8 @@ $(document).ready(function() {
         },
         task1: {
           title: "Shaving Jandy",
-          start: "2018-05-03T14:00",
-          end: "2018-05-10T15:00",
+          start: "2018-06-03T14:00",
+          end: "2018-06-10T15:00",
           group: "Feed",
           recurring: {
             0: true,
@@ -95,21 +95,21 @@ $(document).ready(function() {
             6: false,
           },
           status: {
-            "2018-05-06": true,
-            "2018-05-08": false,
+            "2018-06-06": true,
+            "2018-06-08": false,
           },
         },
         task2: {
           title: "Clean Litter box",
-          start: "2018-05-11T14:00",
-          end: "2018-05-11T15:00",
+          start: "2018-06-11T14:00",
+          end: "2018-06-11T15:00",
           group: "Feed",
           recurring: false,
         },
         task3: {
           title: "Walk",
-          start: "2018-05-01T12:00",
-          end: "2018-05-18T13:00",
+          start: "2018-06-01T12:00",
+          end: "2018-06-18T13:00",
           group: "Bathe",
           recurring: {
             0: false,
@@ -126,8 +126,8 @@ $(document).ready(function() {
         },
         task4: {
           title: "Fighting",
-          start: "2018-05-12T05:00",
-          end: "2018-05-12T07:00",
+          start: "2018-06-12T05:00",
+          end: "2018-06-12T07:00",
           group: "Bathe",
           recurring: false,
           status: {
@@ -135,16 +135,16 @@ $(document).ready(function() {
           },
         },
         task5: {
-          title: "HCI",
-          start: "2018-05-14T19:00",
-          end: "2018-05-14T20:30",
+          title: "HCI Final",
+          start: "2018-06-7T16:00",
+          end: "2018-06-7T18:00",
           group: "Bathe",
           recurring: false,
         },
         task6: {
-          title: "DP6 Write-up",
-          start: "2018-05-17T19:00",
-          end: "2018-05-17T20:30",
+          title: "DP8 Write-up",
+          start: "2018-06-19T00:00",
+          end: "2018-06-19T24:00",
           group: "Bathe",
           recurring: false,
         },
