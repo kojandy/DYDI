@@ -1,7 +1,7 @@
 # DYDI
 ## Introduction
 ### This service is for pet cafe owners and their employees, who has a hard time managing many pets.
-### [Link to Demo](http://dydi.kojandy.com)
+### [Link to Demo](http://kojandy.com/DYDI)
 
 ## Implementations
 * Timeline tabs (index.\*)
